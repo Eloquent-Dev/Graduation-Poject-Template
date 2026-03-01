@@ -12,7 +12,7 @@ class Employee extends Model
 
     protected $fillable = [
         'user_id',
-        'dept_id',
+        'division_id',
         'job_title',
         'dispatch_area',
     ];
@@ -21,8 +21,8 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function department(){
-        return $this->belongsTo(Department::class);
+    public function division(){
+        return $this->belongsTo(Division::class);
     }
 
     public function assignedJobOrders(){

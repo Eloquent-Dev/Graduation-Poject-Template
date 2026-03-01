@@ -12,10 +12,6 @@ class Department extends Model
 
     protected $fillable = ['dept_code','name', 'dept_status'];
 
-    public function employees(){
-        return $this->hasMany(Employee::class);
-    }
-
     public function divisions(){
         return $this->hasMany(Division::class, 'dept_id');
     }

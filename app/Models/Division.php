@@ -23,4 +23,8 @@ class Division extends Model
     public function categories(){
         return $this->hasMany(Category::class);
     }
+
+    public function employees(){
+        return $this->hasMany(Employee::class);
+    }
 }

@@ -44,11 +44,11 @@ class Complaint extends Model
     }
 
     public function jobOrder(){
-        return $this->hasMany(JobOrder::class);/*Not Sure if we want this to stay hasMany not hasOne*/
+        return $this->hasMany(JobOrder::class);
     }
 
     public function feedback(){
-        return $this->hasOne(Feedback::class);/*Not Sure if we want this to stay hasOne not hasMany*/
+        return $this->hasOne(Feedback::class);
     }
 
     public function reopenedComplaint(){
