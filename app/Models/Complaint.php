@@ -10,7 +10,7 @@ class Complaint extends Model
 {
     /** @use HasFactory<\Database\Factories\ComplaintFactory> */
     use HasFactory;
-    use softDeletes;
+    use SoftDeletes;
 
     protected $fillable =[
         'title',
