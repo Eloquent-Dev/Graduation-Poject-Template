@@ -1,11 +1,13 @@
 import './bootstrap';
 
+//Elements
 const hamMenu = document.querySelector('.ham-menu');
 const sideMenu = document.getElementById('side-menu');
 const backdrop = document.getElementById('menu-backdrop');
 const authModal = document.getElementById('auth-modal');
 const loginView = document.getElementById('login-view');
 const registerView = document.getElementById('register-view');
+const oauthCompleteView = document.getElementById('oauth-complete-view');
 
 //Buttons
 const openAuthBtn = document.getElementById('open-auth-btn');
@@ -52,14 +54,64 @@ showLoginBtn.addEventListener('click',()=>{
     loginView.classList.remove('hidden')
 })
 
-const phoneInput = document.querySelector("#phone");
-const iti = window.intlTelInput(phoneInput, {
+const autoOpen = authModal.getAttribute('data-auto-open')
+
+if(autoOpen){
+    loginView.classList.add('hidden')
+    registerView.classList.add('hidden')
+    if(oauthCompleteView) oauthCompleteView.classList.add('hidden')
+
+    authModal.classList.remove('hidden')
+
+    if(autoOpen === 'oauth' && oauthCompleteView){
+        oauthCompleteView.classList.remove('hidden')
+    }else if(autoOpen === 'register'){
+        registerView.classList.remove('hidden')
+    }else if(autoOpen === 'login'){
+        loginView.classList.remove('hidden')
+    }
+}
+
+const phoneInput1 = document.querySelector("#phone-1");
+
+const iti1 = window.intlTelInput(phoneInput1, {
+
     initialCountry: "auto",
+
     geoIpLookup: callback => {
+
         fetch("https://ipapi.co/json")
+
             .then(res => res.json())
+
             .then(data => callback(data.country_code))
+
             .catch(() => callback("jo")); // Default to Jordan
+
     },
+
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+
+});
+
+const phoneInput2 = document.querySelector("#phone-2");
+
+const iti2 = window.intlTelInput(phoneInput2, {
+
+    initialCountry: "auto",
+
+    geoIpLookup: callback => {
+
+        fetch("https://ipapi.co/json")
+
+            .then(res => res.json())
+
+            .then(data => callback(data.country_code))
+
+            .catch(() => callback("jo")); // Default to Jordan
+
+    },
+
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+
 });

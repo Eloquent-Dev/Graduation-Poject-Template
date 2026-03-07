@@ -3,10 +3,10 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__.'/auth.php';
+require __DIR__.'/guest.php';
+
 Route::get('/', function () {
     return view('landing');
 })->name('home');
 
-Route::post('login',[AuthController::class,'login'])->name('login');
-Route::post('register',[AuthController::class,'register'])->name('register');
-Route::post('logout',[AuthController::class,'logout'])->name('logout');

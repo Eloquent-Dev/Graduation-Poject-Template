@@ -153,8 +153,19 @@
             <p class="text-xs text-gray-300 mt-2">&copy; {{ date('Y') }} - All Rights Reserved.</p>
         </div>
     </footer>
+    @php
+    $autoOpenView = '';
+    if(session('needs_oauth_completion')){
+        $autoOpenView = 'oauth';
+    }
+    elseif($errors->has('name')|| $errors->has('national-no')||$errors->has('register-email')||$errors->has('phone_full')||$errors->has('register-password')){
+        $autoOpenView = 'register';
+    }elseif($errors->any()){
+        $autoOpenView = 'login';
+    }
+    @endphp
 
-    <div id="auth-modal" class="fixed inset-0 z-100 hidden flex items-center justify-center bg-gray-900/90 transition-opacity">
+    <div id="auth-modal" data-auto-open="{{ $autoOpenView }}" class="fixed inset-0 z-100 hidden flex items-center justify-center bg-gray-900/90 transition-opacity">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto relative">
             <button id="close-auth-btn" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 focus:outline:none transition cursor-pointer">
                 <i class="fa-solid fa-xmark text-xl pointer-events-none"></i>
@@ -165,13 +176,13 @@
                 <!-- OAuth Buttons -->
             <div class="space-y-4">
                 <!-- Google Button -->
-                <a href="{{ url('auth/google') }}" class="pointer w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 hover:border-slate-500 hover:shadow-lg">
-                    <img src="{{ asset('images/google_logo.png') }}" alt="Google Logo" class="w-5 h-5 mr-3" />
+                <a href="{{ route('google.redirect') }}" class="pointer w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 hover:border-slate-500 hover:shadow-lg">
+                    <img src="{{ asset('images/google_logo.png') }}" alt="Google Logo" class="w-5 h-5 mr-2" />
                     <span class="text-gray-700 font-medium">Continue with Google</span>
                 </a>
 
                 <!-- Microsoft Button -->
-                <a href="{{ url('auth/microsoft') }}" class="pointer w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 hover:border-slate-500 hover:shadow-lg">
+                <a href="{{ route('microsoft.redirect') }}" class="pointer w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 hover:border-slate-500 hover:shadow-lg">
                     <img src="{{ asset('images/Microsoft_logo.png') }}" alt="Microsoft Logo" class="w-5 h-5 mr-3" />
                     <span class="text-gray-700 font-medium">Continue with Microsoft</span>
                 </a>
@@ -221,13 +232,13 @@
                 <!-- OAuth Buttons -->
             <div class="space-y-4">
                 <!-- Google Button -->
-                <a href="{{ url('auth/google') }}" class="pointer w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 hover:border-slate-500 hover:shadow-lg">
+                <a href="{{ route('google.redirect') }}" class="pointer w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 hover:border-slate-500 hover:shadow-lg">
                     <img src="{{ asset('images/google_logo.png') }}" alt="Google Logo" class="w-5 h-5 mr-3" />
                     <span class="text-gray-700 font-medium">Continue with Google</span>
                 </a>
 
                 <!-- Microsoft Button -->
-                <a href="{{ url('auth/microsoft') }}" class="pointer w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 hover:border-slate-500 hover:shadow-lg">
+                <a href="{{ route('microsoft.redirect') }}" class="pointer w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 hover:border-slate-500 hover:shadow-lg">
                     <img src="{{ asset('images/Microsoft_logo.png') }}" alt="Microsoft Logo" class="w-5 h-5 mr-3" />
                     <span class="text-gray-700 font-medium">Continue with Microsoft</span>
                 </a>
@@ -267,7 +278,8 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number:</label>
-                        <input id="phone" type="tel" value="{{ old('phone_full') }}" name="phone_full" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                        <input id="phone-1" type="tel" value="{{ old('phone_full') }}" name="phone_full" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                        <input type="hidden" value="{{ old('country_code') }}" id="country_code" name="country_code">
                         @error('phone_full')
                         <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
                         @enderror
@@ -297,29 +309,32 @@
                     </button>
                 </p>
             </div>
+            <div id="oauth-complete-view" class="p-8 hidden">
+                <h2 class="text-2xl font-bold text-brand-dark mb-2 text-center">Almost Done!</h2>
+                <p class="text-sm text-gray-600 mb-6 text-center">We just need a few official details to secure your account.</p>
+                <form action="{{ route('oauth.finish') }}" method="post" class="space-y-4">
+                    @csrf
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">National Number:</label>
+                        <input type="text" value="{{ old('national-no') }}" name="national-no" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                        @error('national-no')
+                        <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number:</label>
+                        <input id="phone-2" type="tel" value="{{ old('phone_full') }}" name="phone_full" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                        <input type="hidden" value="{{ old('country_code') }}" id="country_code" name="country_code">
+                        @error('phone_full')
+                        <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <button type="submit" class="w-full bg-brand-blue hover:bg-blue-800 text-white font-bold py-3 rounded-lg shadow transition mt-2 cursor-pointer">
+                        Complete Registeration
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-    @if($errors->any())
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const authModal = document.getElementById('auth-modal');
-            const loginView = document.getElementById('login-view');
-            const registerView = document.getElementById('register-view');
-
-            // Instantly show the modal
-            authModal.classList.remove('hidden');
-
-            // Check if the errors belong to the Register form
-            @if($errors->has('name') || $errors->has('national-no') || $errors->has('register-email') || $errors->has('phone_full') || $errors->has('register-password'))
-                loginView.classList.add('hidden');
-                registerView.classList.remove('hidden');
-            @else
-                // Otherwise, the error must be from the Login form
-                registerView.classList.add('hidden');
-                loginView.classList.remove('hidden');
-            @endif
-        });
-    </script>
-@endif
 </body>
 </html>
