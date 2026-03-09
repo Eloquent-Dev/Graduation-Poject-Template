@@ -84,6 +84,7 @@
                         <span></span>
                         <span></span>
                     </div>
+                    @auth
                     <div class="relative">
                         <button type="button" id="notification-btn" class="relative text-white hover:text-brand-orange transition focus:outline-none ml-2 mt-1">
                         <i class="fa-regular fa-bell text-xl cursor-pointer"></i>
@@ -127,6 +128,7 @@
                             @endif
                         </div>
                     </div>
+                    @endauth
                 </div>
                 <div class="flex items-center gap-2">
 
