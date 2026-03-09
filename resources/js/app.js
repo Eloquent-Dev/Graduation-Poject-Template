@@ -122,3 +122,20 @@ const iti2 = window.intlTelInput(phoneInput2, {
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
 
 });
+const notificationBtn = document.getElementById('notification-btn');
+const notificationDropdown = document.getElementById('notification-dropdown');
+
+if(notificationBtn && notificationDropdown){
+    notificationBtn.addEventListener('click',(e)=>{
+        e.stopPropagation()
+    
+        notificationDropdown.classList.toggle('hidden')
+    });
+
+    document.addEventListener('click', (e)=>{
+        if(!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)){
+            notificationDropdown.classList.add('hidden')
+        }
+    })
+
+}
