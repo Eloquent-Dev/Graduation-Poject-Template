@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('dept_code')->unique();
             $table->string('name');
-            $table->unsignedInteger('dept_status');
             $table->timestamps();
         });
     }

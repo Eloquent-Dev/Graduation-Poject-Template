@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('divisions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('division_code')->unique();
             $table->string('name');
             $table->foreignId('dept_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
