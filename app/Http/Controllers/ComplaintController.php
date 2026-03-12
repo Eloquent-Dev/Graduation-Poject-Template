@@ -35,7 +35,10 @@ class ComplaintController extends Controller
             'user_id' => auth()->id()
         ]);
 
-        $dispatchers = User::all();
+        $dispatchers = User::where('role' , 'dispatcher')->get()->all();
+        
+        if(auth()->check()) $dispatchers[] = auth()->user();
+
         Notification::send($dispatchers, new newComplaintSubmitted($complaint));
 
         return redirect()->route('home')->with('success','Your complaint has been submitted and is under review');
