@@ -1,6 +1,6 @@
 <x-layout>
     @section('title','Welcome To City Voice')
-    <section class="relative h-[600px] flex items-center -mt-8 -mx-6 lg:-mx-8">
+    <section class="relative h-150 flex items-center -mt-8 -mx-6 lg:-mx-8">
     <div class="absolute inset-0 z-0">
         <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
              alt="City Skyline"
