@@ -15,6 +15,7 @@ class Employee extends Model
         'division_id',
         'job_title',
         'dispatch_area',
+        'duty_status'
     ];
 
     public function user(){
@@ -27,6 +28,7 @@ class Employee extends Model
 
     public function assignedJobOrders(){
         return $this->belongsToMany(JobOrder::class, 'employee_job_order')
+        ->withPivot('worker_status')
         ->withTimestamps();
     }
 

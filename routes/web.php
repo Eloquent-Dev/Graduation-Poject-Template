@@ -8,6 +8,7 @@ use App\Http\Middleware\RequiredCompleteProfile;
 require __DIR__.'/auth.php';
 require __DIR__.'/guest.php';
 require __DIR__.'/dispatcher.php';
+require __DIR__.'/worker.php';
 
 Route::get('/', function () {
     return view('landing');

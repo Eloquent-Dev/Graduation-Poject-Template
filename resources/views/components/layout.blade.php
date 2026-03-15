@@ -30,22 +30,19 @@
                         <i class="fa-solid fa-file-circle-exclamation w-5 text-center"></i> My Complaints
                     </a>
                     @endauth
-                    @if(auth()->check() && auth()->user()->role === 'worker')
-                    <a href="#" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
-                        <i class="fa-solid fa-clipboard-check w-5 text-center"></i> My Assignements
-                    </a>
-                    <a href="#" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
-                        <i class="fa-solid fa-users-gear w-5 text-center"></i> Worker Panel
+                    @if(auth()->check() && in_array(auth()->user()->role,['worker','supervisor']))
+                    <a href="{{ route('worker.assignments') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
+                        <i class="fa-solid fa-clipboard-check w-5 text-center"></i> My Assignments
                     </a>
                     @endif
                     @if(auth()->check() && auth()->user()->role === 'dispatcher')
                     <a href="{{ route('dispatcher.job_orders.index') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
-                        <i class="fa-solid fa-paper-plane w-5 text-center"></i> Dispatch Job
+                        <i class="fa-solid fa-satellite-dish w-5 text-center"></i> Dispatch Queue
                     </a>
                     @endif
                     @if(auth()->check() && auth()->user()->role === 'supervisor')
                     <a href="#" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
-                        <i class="fa-solid fa-user-tie w-5 text-center"></i> Supervisor Panel
+                        <i class="fa-solid fa-user-gear w-5 text-center"></i> Worker Panel
                     </a>
                     <a href="#" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
                         <i class="fa-solid fa-file-circle-check w-5 text-center"></i> Completion Reports
@@ -96,7 +93,7 @@
                         @endif
                     </button>
 
-                    <div id="notification-dropdown" class="hidden absolute left-0 mt-4 w-80 h-100 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden">
+                    <div id="notification-dropdown" class="hidden absolute max-h-112 left-0 mt-4 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden">
                         <div class="bg-gray-50 border-b border-gray-100 px-4 py-3 flex justify-between items-center">
                             <h3 class="text-sm font-bold tetx">Notifications</h3>
                             @if(auth()->user()->unreadNotifications->count() > 0)

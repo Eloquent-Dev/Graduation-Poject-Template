@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('job_title');
-            $table->string('dispatch_area')->nullable();
+            $table->enum('duty_status',['off_duty','on_duty'])->default('off_duty');
             $table->foreignId('division_id')->constrained('divisions')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('job_order_id')->constrained('job_orders')->onDelete('cascade');
+            $table->enum('worker_status',['on_site','in_route','off_duty','off_site'])->default('off_site');
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
-            
+
             $table->timestamps();
         });
     }

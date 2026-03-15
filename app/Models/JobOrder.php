@@ -28,6 +28,7 @@ class JobOrder extends Model
 
     public function workers(){
         return $this->belongsToMany(Employee::class, 'employee_job_order')
+        ->withPivot('worker_status')
         ->withTimestamps();
     }
 
