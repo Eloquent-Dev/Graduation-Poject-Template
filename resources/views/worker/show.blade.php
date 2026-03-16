@@ -90,7 +90,7 @@
             <div class="bg-blue-50 border border-blue-200 p-5 rounded-xl text-center">
                 <h3 class="text-sm font-bold text-brand-blue mb-2">Ready to close this ticket?</h3>
                 <p class="text-xs text-gray-600 mb-4">As the Site Lead, you are responsible for submitting the final completion report and evidence.</p>
-                <a href="#" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-brand-blue hover:bg-blue-800 text-white text-sm font-bold rounded-lg transition shadow-sm">
+                <a href="{{ route('supervisor.completion.create',$jobOrder->id) }}" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-brand-blue hover:bg-blue-800 text-white text-sm font-bold rounded-lg transition shadow-sm">
                     <i class="fa-solid fa-file-signature"></i> Create Completion Report
                 </a>
             </div>

@@ -42,9 +42,6 @@
                     @endif
                     @if(auth()->check() && auth()->user()->role === 'supervisor')
                     <a href="#" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
-                        <i class="fa-solid fa-user-gear w-5 text-center"></i> Worker Panel
-                    </a>
-                    <a href="#" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
                         <i class="fa-solid fa-file-circle-check w-5 text-center"></i> Completion Reports
                     </a>
                     @endif

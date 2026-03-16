@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+        $this->call(ComplaintsSeeder::class);
         $this->command->info('Users and Employees seeded successfully! (including 40 Workers & 10 Supervisors)');
     }
 }

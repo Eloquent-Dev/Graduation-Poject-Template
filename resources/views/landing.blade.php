@@ -158,7 +158,7 @@
                             Submit Report
                         </a>
                     @else
-                        <button onclick="document.getElementById('open-auth-btn').click()" class="bg-brand-blue hover:bg-blue-800 text-white px-6 py-2.5 rounded shadow font-semibold text-sm transition">
+                        <button onclick="document.getElementById('open-auth-btn').click()" class="bg-brand-blue pointer hover:bg-blue-800 text-white px-6 py-2.5 rounded shadow font-semibold text-sm transition">
                             Get Started
                         </button>
                     @endauth

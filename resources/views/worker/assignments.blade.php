@@ -45,8 +45,8 @@
         </div>
 
         @if($assignments->isEmpty())
-            <div class="bg-white p-12 rounded-xl shadow-sm border border-gray-100 text-center max-w-lg mx-auto mt-10">
-                <div class="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div class="bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-2xl p-12 text-center flex flex-col items-center justify-center min-h-100 transition-all hover:bg-gray-50 hover:border-gray-300 shadow-sm mt-10">
+                <div class="w-24 h-24 bg-green-50 text-green-500 rounded-full relative flex items-center justify-center mx-auto mb-6">
                     <i class="fa-solid fa-mug-hot text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">No Active Assignments</h3>
