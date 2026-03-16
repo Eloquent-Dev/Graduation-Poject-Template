@@ -41,11 +41,11 @@ class DispatcherController extends Controller
         ->get();
 
         $supervisors = $divisionEmployees->filter(function($employee){
-            return $employee->user->role === 'supervisor';
+            return $employee->user->role === 'supervisor' && $employee->duty_status === 'on_duty';
         });
 
         $workers = $divisionEmployees->filter(function($employee){
-            return $employee->user->role === 'worker';
+            return $employee->user->role === 'worker' && $employee->duty_status === 'on_duty';
         });
 
         $availableWorkers = Employee::with('user')
