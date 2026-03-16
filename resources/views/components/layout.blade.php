@@ -158,27 +158,36 @@
             </div>
         </div>
     </nav>
-    <div class="fixed top-24 left-4 z-20 pointer-events-none flex flex-col gap-3 w-full">
+    <div class="fixed top-24 left-4 z-20 flex flex-col gap-3 w-full">
         @if(session('success'))
-        <div class="max-w-8xl px-6 lg:px-8 mt-4">
-            <div class="bg-green-100 border-l-4 border-green-500 w-full text-green-700 p-4 rounded shadow-sm" role="alert">
+        <div class="max-w-8xl px-6 lg:px-8 mt-4 alert-wrapper">
+            <div class="bg-green-100 border-l-4 border-green-500 w-full text-green-700 p-4 rounded shadow-sm flex justify-between items-center" role="alert">
                 <p>{{ session('success') }}</p>
+                <button type="button" onclick="this.closest('.alert-wrapper').remove()" class="close-alert-btn text-green-700 hover:text-green-900 cursor-pointer transition focus:outline-none p-1" aria-label="Close">
+                    <i class="fa-solid fa-xmark text-lg text-[24px] pointer-events-none"></i>
+                </button>
             </div>
         </div>
     @endif
 
     @if(session('error'))
-        <div class="max-w-8xl px-6 lg:px-8 mt-4">
+        <div class="max-w-8xl px-6 lg:px-8 mt-4 alert-wrapper">
             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-sm" role="alert">
                 <p>{{ session('error') }}</p>
+                <button type="button" onclick="this.closest('.alert-wrapper').remove()" class="close-alert-btn text-green-700 hover:text-green-900 cursor-pointer transition focus:outline-none p-1" aria-label="Close">
+                    <i class="fa-solid fa-xmark text-lg text-[24px] pointer-events-none"></i>
+                </button>
             </div>
         </div>
     @endif
 
     @if(session('warning') && is_null(auth()->user()->national_no))
-        <div class="max-w-8xl px-6 lg:px-8 mt-4">
+        <div class="max-w-8xl px-6 lg:px-8 mt-4 alert-wrapper">
             <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded shadow-sm" role="alert">
                 <p>{{ session('warning') }}</p>
+                <button type="button" onclick="this.closest('.alert-wrapper').remove()" class="close-alert-btn text-green-700 hover:text-green-900 cursor-pointer transition focus:outline-none p-1" aria-label="Close">
+                    <i class="fa-solid fa-xmark text-lg text-[24px] pointer-events-none"></i>
+                </button>
             </div>
         </div>
     @endif
