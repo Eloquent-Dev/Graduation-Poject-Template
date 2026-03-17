@@ -19,6 +19,10 @@ class CompletionReport extends Model
         'image_path',
     ];
 
+    protected $casts = [
+        'completed_at' => 'datetime'
+    ];
+
     public function jobOrder(){
         return $this->belongsTo(JobOrder::class);
     }

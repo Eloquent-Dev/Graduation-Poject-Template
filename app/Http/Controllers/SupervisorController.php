@@ -42,6 +42,7 @@ class SupervisorController extends Controller
         }
 
         CompletionReport::create([
+            'image_path' => $imagePath,
             'job_order_id' => $jobOrder->id,
             'reported_by' => $employeeId,
             'supervisor_comments' => $request->supervisor_comments,
@@ -52,7 +53,6 @@ class SupervisorController extends Controller
         $jobOrder->update([
             'status' => 'under_review',
             'supervisor_comments' => $request->supervisor_comments,
-            'image_path' => $imagePath,
             'completed_at' => now()
         ]);
 
