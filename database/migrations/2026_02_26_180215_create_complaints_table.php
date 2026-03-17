@@ -14,16 +14,13 @@ return new class extends Migration
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->enum('status', ['pending', 'in_progress', 'resolved','under_review','reopened','closed'])->default('pending');
+            $table->enum('status', ['pending','in_progress','approved','resolved','under_review','reopened','rejected'])->default('pending');
+            $table->string('image_path')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->foreignId('approved_by')->nullable()->constrained('employees')->onDelete('cascade');
             $table->timestamp('rejected_at')->nullable();
             $table->foreignId('rejected_by')->nullable()->constrained('employees')->onDelete('cascade');
             $table->text('rejection_reason')->nullable();
-            $table->timestamp('resolved_at')->nullable();
-            $table->foreignId('resolved_by')->nullable()->constrained('employees')->onDelete('cascade');
-            $table->timestamp('closed_at')->nullable();
-            $table->foreignId('closed_by')->nullable()->constrained('employees')->onDelete('cascade');
             $table->string('complainant_name')->nullable();
             $table->string('guest_national_no')->nullable();
             $table->string('passport_no')->nullable();

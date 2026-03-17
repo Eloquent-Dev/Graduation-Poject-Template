@@ -41,7 +41,8 @@ class ComplaintController extends Controller
             'category_id' => 'required|exists:categories,id',
             'description' => 'required|string',
             'latitude' => 'required|string',
-            'longitude' => 'required|string'
+            'longitude' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:20480'
         ];
 
         if(!auth()->check()){
@@ -58,6 +59,11 @@ class ComplaintController extends Controller
             'description' => 'Description'
         ]);
 
+        $imagePath = null;
+        if($request->hasFile('image')){
+            $imagePath = $request->file('image')->store('complaints','public');
+        }
+
         $complaint = Complaint::Create([
             'title' => $validated['title'],
             'category_id' => $validated['category_id'],
@@ -67,7 +73,8 @@ class ComplaintController extends Controller
             'user_id' => auth()->id(),
             'complainant_name' =>$validated['complainant_name'] ?? null,
             'guest_national_no' => $validated['guest_national_no'] ?? null,
-            'passport_no' => $validated['passport_no'] ?? null
+            'passport_no' => $validated['passport_no'] ?? null,
+            'image' => $imagePath
         ]);
 
         JobOrder::create([

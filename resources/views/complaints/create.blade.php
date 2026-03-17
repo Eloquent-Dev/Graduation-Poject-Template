@@ -59,8 +59,20 @@
 
             <div>
                 <label class="block text-sm font-bold text-gray-700 mb-1">Detailed Description</label>
-                <textarea name="description" rows="4" placeholder="Please provide details about the issue..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"></textarea>
+                <textarea name="description" rows="4" placeholder="Please provide details about the issue..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none">{{ old('description') }}</textarea>
                 @error('description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-1">Attach a Photo (Optional)</label>
+                <p class="text-xs text-gray-500 mb-2">A clear photo helps our crews locate and fix the issue faster.</p>
+                <input
+                type="file"
+                name="image"
+                id="image"
+                accept="image/*"
+                class="w-full pointer block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-brand-blue hover:file:bg-blue-100 transition">
+                @error('image') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
 
             <div>
