@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\oAuth\GoogleController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::middleware('auth')->group(function(){
@@ -25,4 +26,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/notifications/mark-all-read',[NotificationController::class,'markAllRead'])
     ->name('notifications.markAllRead');
 
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+    
 });

@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers;
+use App\Models\Complaint;
+use Illuminate\Http\Request;
+
+class DashboardController extends Controller
+{
+    public function index()
+    {
+        $user = auth()-> user();
+        $complaints= Complaint::where('user_id', $user->id)->get();
+        $stats = [
+            'total'=> $complaints->count(),
+            'pending'=> $complaints->where('status','pending')->count(),
+            'resolved' => $complaints->whereIn('status',['resolved','approved'])->count(),
+            ];
+        $groupedComplaints = $complaints->groupBy('status');
+        $chartLabels =[];
+        $chartData =[];
+
+        foreach ($groupedComplaints as $status => $items )
+        {
+            $totalHours = 0;
+            $count =0;
+
+            foreach ($items as $item)
+            {
+                $hours = $item->created_at->diffInHours($item->updated_at);
+                $totalHours += $hours;
+                $count++;
+
+            }
+            $averageHours = $count > 0 ? round($totalHours / $count, 1) : 0;
+
+            $chartLables[] = ucwords(str_replace('_',' ',$status));
+            $chartData[] = $averageHours;
+            }
+        return view('dashboard',compact('user','stats','chartLabels','chartData'));
+    }
+
+}

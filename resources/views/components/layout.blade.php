@@ -23,7 +23,7 @@
                         <i class="fa-solid fa-home w-5 text-center"></i> Home
                     </a>
                     @auth
-                    <a href="#" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
+                    <a href="{{ route('dashboard') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
                         <i class="fa-solid fa-table-columns w-5 text-center"></i> Dashboard
                     </a>
                     <a href="{{ route('complaints.index') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
