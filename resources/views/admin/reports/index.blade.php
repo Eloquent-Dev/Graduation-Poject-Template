@@ -7,21 +7,30 @@
                 <h1 class="text-2xl font-bold text-gray-900">System Performance Reports</h1>
                 <p class="text-sm text-gray-500 mt-1">Generate and review frozen historical snapshots of system KPIs.</p>
             </div>
+            @php
+                $latestReport = App\Models\AdminReport::latest()->first();
+                $canGenerate = !$latestReport || $latestReport->created_at->addDays(30)->isPast()
+            @endphp
 
-            <form action="{{ route('admin.reports.generate') }}" method="POST" onsubmit="return confirm('Are you sure? This will calculate the lasst 30 days of data and permanently save it as a new report.');">
-                @csrf
-                <button type="submit" class="bg-brand-blue hover:bg-blue-800 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition shadow-md flex items-center gap-2 pointer">
-                    Generate New 30-Day Snapshot Report
+            @if($canGenerate)
+                <form action="{{ route('admin.reports.generate') }}" method="POST" onsubmit="return confirm('Are you sure? This will calculate the lasst 30 days of data and permanently save it as a new report.');">
+                    @csrf
+                    <button type="submit" class="bg-brand-blue hover:bg-blue-800 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition shadow-md flex items-center gap-2 pointer">
+                        Generate New 30-Day Snapshot Report
+                    </button>
+                </form>
+            @else
+            @php
+                $daysLeft = now()->diffInDays($latestReport->created_at->addDays(30));
+                $displayDays = $daysLeft > 0 ? $daysLeft : 1;
+            @endphp
+                <button disabled class="bg-gray-100 border boder-gray-300 text-gray-400 px-6 py-2.5 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2 cursor-not-allowed" title="Cooldown active across all Admins">
+                    Global Cooldown Active: Please wait {{ round($displayDays,0) }} more day(s) before generating a new report.
                 </button>
-            </form>
-        </div>
+            @endif
 
-        @if(session('success'))
-            <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6 flex items-center gap-3 shadow-sm">
-                <i class="fa-solid fa-circle-check text-lg"></i>
-                <span class="font-medium text-sm">{{ session('success') }}</span>
-            </div>
-        @endif
+
+        </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="overflow-x-auto">

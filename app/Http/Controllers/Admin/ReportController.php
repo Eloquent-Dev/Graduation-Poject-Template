@@ -16,6 +16,16 @@ class ReportController extends Controller
     }
 
     public function generate(){
+        $latestReport = AdminReport::latest()->first();
+
+        if($latestReport && $latestReport->created_at->diffInDays(30)->isFuture()){
+            $daysLeft = now()->diffInDays($latestReport->created_at->addDays(30));
+
+            $displayDays = $daysLeft > 0 ? $daysLeft : 1;
+
+            return back()->with('error',"Global Cooldown Active: Please wait {$displayDays} more day(s) before generating a new report.");
+        }
+
         $startDate = now()->subDays(30);
 
         $endDate = now();
@@ -25,6 +35,8 @@ class ReportController extends Controller
         $totalRecieved = $complaints->count();
         $totalResolved = $complaints->whereIn('status',['approved','resolved'])->count();
         $totalPending = $complaints->where('status','pending')->count();
+        $totalInProgress = $complaints->where('status','in_progress')->count();
+        $totalUnderReview = $complaints->where('status','under_review')->count();
         $totalReopened = $complaints->where('status','reopened')->count();
         $totalRejected = $complaints->where('status','rejected')->count();
 
@@ -45,8 +57,11 @@ class ReportController extends Controller
             'total_received' => $totalRecieved,
             'total_resolved' => $totalResolved,
             'total_pending' => $totalPending,
+            'total_in_progress' => $totalInProgress,
+            'total_under_review' => $totalUnderReview,
             'total_reopened' => $totalReopened,
             'total_rejected' => $totalRejected,
+            'resolution_rate' => $totalRecieved > 0 ? round(($totalResolved / $totalRecieved) * 100, 1) : 0,
             'avg_resolution_hours' => $avgResolutionTime
         ];
 

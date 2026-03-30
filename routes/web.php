@@ -11,7 +11,6 @@ require __DIR__.'/dispatcher.php';
 require __DIR__.'/worker.php';
 require __DIR__.'/supervisor.php';
 require __DIR__.'/admin.php';
-require __DIR__.'/categories.php';
 
 
 Route::get('/', function () {
