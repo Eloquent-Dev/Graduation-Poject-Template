@@ -28,4 +28,25 @@ class CategoryController extends Controller
        ->paginate(15);
          return view('admin.categories.show',compact('category','stats','complaints'));
     }
+    public function create()
+     {
+        return view('admin.categories.create');
+     }
+
+     public function store(Request $request)
+     {
+        $request->validate([
+            'name'=> 'required|stringmax:255|unique:categories,name'
+        ]);
+        category::create([
+            'name'=> $request->name
+        ]);
+        return redirect()->route('admin.categories.index')->with('success','Category created successfully!');
+     }
+
+    public function destroy(category $category)
+     {
+        $category->delete();
+        return redirect()->route('admin.categories.index')->with('success','Category deleted successfully!');
+     }
 }
