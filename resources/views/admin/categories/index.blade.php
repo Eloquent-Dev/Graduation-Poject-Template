@@ -7,7 +7,7 @@
                 <h1 class="text-2xl font-bold text-gray-900">Issue Categories</h1>
                 <p class="text-sm text-gray-500 mt-1">Manage the types of complaints citizens are allowed to submit.</p>
             </div>
-            <a href="#"
+            <a href="{{route('admin.categories.create')}}"
                 class="bg-brand-dark hover:bg-gray-900 text-white font-bold px-5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-2 text-sm w-fit">
                 <i class="fa-solid fa-plus"></i> Add New Category
             </a>
@@ -36,7 +36,7 @@
 
                                 <td class="p-4">
                                     <span class="font-bold text-brand-blue bg-blue-50 px-3 py-1.5 rounded-lg text-sm">
-                                        {{ $category->name }}
+                                        <a class="hover:underline" href="{{route('admin.categories.show',$category->id)}}">{{ $category->name }}</a>
                                     </span>
                                 </td>
                                 <td class="p-4 text-center">
@@ -51,14 +51,18 @@
                                 </td>
                                 <td class="p-4 text-right">
                                     <div class="flex items-center justify-end gap-2">
-                                        <button
+                                        <a
                                             class="text-gray-400 hover:text-brand-blue transition p-2 bg-gray-50 hover:bg-blue-50 rounded-lg">
                                             <i class="fa-solid fa-pen-to-square"></i>
-                                        </button>
-                                        <button
+                                    </a>
+                                        <form action="{{route('admin.categories.destroy',$category->id)}}" method="post" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
                                             class="text-gray-400 hover:text-red-500 transition p-2 bg-gray-50 hover:bg-red-50 rounded-lg">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

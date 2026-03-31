@@ -1,7 +1,7 @@
 <x-layout>
     @section('title', 'category' . $category->name)
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <a href="{{ route('categories.index') }}"
+        <a href="{{ route('admin.categories.index') }}"
             class="inline-flex items-center gap-2 text-gray-500 hover:text-brand-blue font-medium text-sm mb-4 transition">
             <i class="fa-solid fa-arrow-left"></i>Back to Categories
         </a>
