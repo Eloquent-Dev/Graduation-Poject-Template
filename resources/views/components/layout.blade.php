@@ -62,8 +62,8 @@
                     @auth
                     <div class="mt-auto">
                         <div class="border-t border-white my-4 flex items-end"></div>
-                    <a href="#" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
-                       <i class="fa-solid fa-gear"></i> Account Settings
+                    <a href="" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
+                       <i class="fa-solid fa-gear"></i> Profile Settings
                     </a>
                     </div>
                     @endauth
@@ -73,12 +73,24 @@
 
             <div class="flex items-center justify-between h-20">
                 <div class="flex justify-between items-center gap-10">
+                    @guest
+                        <div class="flex items-center gap-4 sm:gap-6">
+                            <a href="{{ route('home') }}" class="text-white hover:text-brand-orange transition text-sm font-medium flex items-center gap-2">
+                                <i class="fa-solid fa-home"></i>
+                                <span class="hidden sm:inline">Home</span>
+                            </a>
+                            <a href="{{ route('complaints.create') }}" class="text-white hover:text-brand-orange transition text-sm font-medium flex items-center gap-2">
+                                <i class="fa-solid fa-bullhorn"></i>
+                                <span class="hidden sm:inline">Submit Complaint</span>
+                            </a>
+                        </div>
+                    @endguest
+                    @auth
                     <div class="ham-menu flex">
                         <span></span>
                         <span></span>
                         <span></span>
                     </div>
-                    @auth
                     <div class="relative">
                         <button type="button" id="notification-btn" class="relative text-white hover:text-brand-orange transition focus:outline-none ml-2 mt-1">
                         <i class="fa-regular fa-bell text-xl cursor-pointer"></i>
