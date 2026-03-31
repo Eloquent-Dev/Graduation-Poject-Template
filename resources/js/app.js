@@ -23,8 +23,12 @@ function toggleMenu() {
     backdrop.classList.toggle('pointer-events-none');
 }
 
-hamMenu.addEventListener('click', toggleMenu);
-backdrop.addEventListener('click', toggleMenu);
+if(hamMenu){
+    hamMenu.addEventListener('click', toggleMenu);
+}
+if(backdrop){
+    backdrop.addEventListener('click', toggleMenu);
+}
 
 authModal.addEventListener('click', (e) =>{
     if(e.target === authModal){
@@ -128,7 +132,7 @@ const notificationDropdown = document.getElementById('notification-dropdown');
 if(notificationBtn && notificationDropdown){
     notificationBtn.addEventListener('click',(e)=>{
         e.stopPropagation()
-    
+
         notificationDropdown.classList.toggle('hidden')
     });
 

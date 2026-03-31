@@ -5,6 +5,7 @@ use App\Http\Controllers\oAuth\GoogleController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CitizenProfileController;
 
 
 Route::middleware('auth')->group(function(){
@@ -27,5 +28,10 @@ Route::middleware('auth')->group(function(){
     ->name('notifications.markAllRead');
 
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
-    
+
+    Route::get('/citizen/profile',[CitizenProfileController::class,'show'])->name('citizen.profile.show');
+
+    Route::get('/citizen/profile/edit',[CitizenProfileController::class,'edit'])->name('citizen.profile.edit');
+    Route::post('/citizen/profile/update',[CitizenProfileController::class,'update'])->name('citizen.profile.update');
+
 });
