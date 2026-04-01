@@ -22,7 +22,7 @@
                             Full Name<span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="edit_name" id="edit_name" value="{{ old('edit_name', $user->name) }}" required
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue focus:ring focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_name') border-red-500 ring-1 ring-red-500 @enderror">
+                        class="w-full rounded-xl border border-gray-300 shadow-sm focus:border-brand-blue focus:ring focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_name') border-red-500 ring-1 ring-red-500 @enderror">
 
                         @error('edit_name')
                             <p class="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
@@ -30,13 +30,12 @@
                             </p>
                         @enderror
                     </div>
-                <div class="sm:col-span-2">
                     <div>
                         <label for="edit_email" class="block text-sm font-bold text-gray-700 mb-1">
                             Email Address <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="edit_email" id="edit_email" value="{{ old('edit_email', $user->email) }}" required
-                        class="w-full rounded-xl border-gray-300 shadow-sm focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_email') border-red-500 ring-1 ring-red-500 @enderror">
+                        class="w-full rounded-xl border border-gray-300 shadow-sm focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_email') border-red-500 ring-1 ring-red-500 @enderror">
                         @error('edit_email')
                             <p class="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                                 <i class="fa-solid fa-circle-exclamation"></i>{{ $message }}
@@ -46,7 +45,7 @@
                     <div>
                         <label for="edit_phone" class="block text-sm font-bold text-gray-700 mb-1">Phone Number</label>
                         <input type="text" name="edit_phone" id="edit_phone" value="{{ old('edit_phone', $user->phone) }}" placeholder="Enter phone number"
-                        class="w-full rounded-xl border-gray-300 shadow-sm focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_phone') border-red-500 ring-1 ring-red-500 @enderror">
+                        class="w-full rounded-xl border border-gray-300 shadow-sm focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_phone') border-red-500 ring-1 ring-red-500 @enderror">
                         @error('edit_phone')
                             <p class="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                                 <i class="fa-solid fa-circle-exclamation"></i>{{ $message }}
@@ -56,7 +55,7 @@
                     <div>
                         <label for="edit_national_no" class="block text-sm font-bold text-gray-700 mb-1">National ID</label>
                         <input type="text" name="edit_national_no" id="edit_national_no" value="{{ old('edit_national_no', $user->national_no) }}" placeholder="Enter ID number"
-                        class="w-full rounded-xl border-gray-300 shadow-sm focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_national_no') border-red-500 ring-1 ring-red-500 @enderror">
+                        class="w-full rounded-xl border border-gray-300 shadow-sm focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_national_no') border-red-500 ring-1 ring-red-500 @enderror">
                         @error('edit_national_no')
                             <p class="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                                 <i class="fa-solid fa-circle-exclamation"></i>{{ $message }}
@@ -66,7 +65,7 @@
 
                 </div>
                 <div class="mt-8 pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
-                    <a href="{{ route('citizen.profile.show') }}" class="px-5 py-2.5 text-sm font-bold text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition">
+                    <a href="{{ route('citizen.profile.show') }}" class="px-5 py-2.5 text-sm font-bold border text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition">
                         Cancel</a>
 
                     <button type="submit" class="px-6 py-2.5 bg-brand-blue hover:bg-blue-800 text-white font-bold rounded-xl hover:shadow-lg transition flex items-center gap-2">
@@ -74,6 +73,9 @@
                     </button>
                 </div>
             </form>
+            </div>
+            
         </div>
     </div>
+   
 </x-layout>
