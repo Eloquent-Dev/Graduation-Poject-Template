@@ -1,7 +1,8 @@
 <x-layout>
-    @section('title', 'Edit Profile')
+    @section('title', 'Edit Employee Profile')
+
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-        <a href="{{ route('citizen.profile.show') }}" class="inline-flex items-center gap-2 text-gary-500 hover:text-brand-blue font-medium text-sm mb-6 transition">
+        <a href="{{ route('employee.profile.show') }}" class="inline-flex items-center gap-2 text-gary-500 hover:text-brand-blue font-medium text-sm mb-6 transition">
             <i class="fa-solid fa-arrow-left"></i> Back to Profile
         </a>
         <div class="mb-8">
@@ -13,9 +14,9 @@
                 <i class="fa-solid fa-user-pen text-gray-400"></i>
                 <h3 class="font-bold text-gray-800">Profile Information</h3>
             </div>
-            <form action="{{ route('citizen.profile.update') }}" method="POST" class="p-6 sm:p-8">
+            <form action="{{ route('employee.profile.update') }}" method="POST" class="p-6 sm:p-8">
                 @csrf
-                @method('patch')
+                @method('PATCH')
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div class="sm:col-span-2">
                         <label for="edit_name" class="block text-sm font-bold text-gray-700 mb-1">
@@ -62,10 +63,23 @@
                             </p>
                         @enderror
                     </div>
+                    <div >
+                        <label for="edit_job_title" class="block text-sm font-bold text-gray-700 mb-1">
+                            Job Title<span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" name="edit_job_title" id="edit_job_title" value="{{ old('edit_job_title', $user->employee->job_title) }}" required
+                        class="w-full rounded-xl border border-gray-300 shadow-sm focus:border-brand-blue focus:ring focus:ring-brand-blue/20 px-4 py-2.5 transition @error('edit_job_title') border-red-500 ring-1 ring-red-500 @enderror">
+
+                        @error('edit_job_title')
+                            <p class="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-circle-exclamation"></i>{{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
                 </div>
                 <div class="mt-8 pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
-                    <a href="{{ route('citizen.profile.show') }}" class="px-5 py-2.5 text-sm font-bold border text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition">
+                    <a href="{{ route('employee.profile.show') }}" class="px-5 py-2.5 text-sm font-bold border text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition">
                         Cancel</a>
 
                     <button type="submit" class="px-6 py-2.5 bg-brand-blue hover:bg-blue-800 text-white font-bold rounded-xl hover:shadow-lg transition flex items-center gap-2 pointer">
@@ -76,5 +90,4 @@
             </div>
 
         </div>
-
 </x-layout>

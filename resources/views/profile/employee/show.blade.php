@@ -1,9 +1,9 @@
 <x-layout>
-    @section('title', 'Citizen Profile Show')
+    @section('title', 'Employee Profile')
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         <div class ="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">Citizen Profile</h1>
-            <p class="text-sm mt-1 text-gray-500">View your profile information and details.</p>
+            <h1 class="text-3xl font-bold text-gray-900">Employee Profile</h1>
+            <p class="text-sm mt-1 text-gray-500">Manage your official system record and employment details.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -15,7 +15,19 @@
                         {{ substr($user->name, 0, 1) }}
                     </div>
                     <h2 class="text-xl font-bold text-gray-900">{{ $user->name }}</h2>
-                    <p class="text-sm text-gray-500 mb-4">Registered Citizen</p>
+                    <p class="text-sm text-gray-500 mb-4">Registered {{ ucfirst($user->role) }}</p>
+
+                    <div class="z-10 mt-2">
+                        @if($user->employee->duty_status === 'on_duty')
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-green-100 text-green-700 border border-green-200">
+                                On Duty
+                            </span>
+                        @else
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-red-100 text-red-700 border border-red-200">
+                                Off Duty
+                            </span>
+                        @endif
+                    </div>
 
                     <div class="w-full mt-6 pt-6 border-t border-gray-100">
                         <p class="text-xs text-gray-400">Member since {{ $user->created_at->format('F Y') }} </p>
@@ -27,12 +39,60 @@
                 <div class="bg-white shadow-sm rounded-2xl border border-gray-200 overflow-hidden">
                     <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                         <h3 class="text-lg font-bold text-gray-900">
-                            <i class="fa-solid fa-address-card text-gray-800"></i> Personal Information
+                            <i class="fa-solid fa-briefcase "></i> Employment Information
                         </h3>
-                        <a href="{{ route('citizen.profile.edit') }}"
+                        <a href="{{ route('employee.profile.edit') }}"
                             class="text-sm text-brand-blue hover:text-blue-800 font-medium transition">
-                            <i class="fa-solid fa-pen-to-square"></i>
+                            <i class="fa-solid fa-pen-to-square text-brand-blue"></i>
                             Edit</a>
+                    </div>
+                    <div class="p-6">
+                        @if($user->employee->pending_job_title)
+                            <div class="mb-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-start gap-3 shadow-sm">
+                                <div class="mt-0.5 text-yellow-600">
+                                    <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-yellow-800">Pending Title Change</h4>
+                                    <p class="text-xs text-yellow-700 mt-1">
+                                        You have requested to change your job title to <span class="font-bold bg-yellow-200/50 px-1.5 py-0.5 rounded">{{ $user->employee->pending_job_title }}</span>.
+                                    </p>
+                                </div>
+                            </div>
+                        @endif
+                        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <dt class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">Job Title</dt>
+                                <dd class="inline-block text-gray-700 px-3 py-1.5 border border-gray-200 bg-gray-100 rounded-lg font-medium">{{ $user->employee->job_title ?? 'Not assigned' }}</dd>
+                            </div>
+
+                            <div>
+                                <dt class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">Division</dt>
+                                <dd class="mt-2 text-sm text-gray-900">
+                                    @if ($user->employee->division)
+                                        <span class="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded-lg border border-gray-200 font-medium">
+                                            {{ $user->employee->division->name }}
+                                        </span>
+                                    @else
+                                        <span class="italic text-gray-400">-- Unassigned --</span>
+                                    @endif
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">System ID</dt>
+                                <dd class="mt-1 text-gray-700 font-mono bg-gray-100 px-3 py-1 inline-block rounded-lg border border-gray-200">
+                                    EMP-{{ str_pad($user->employee->id, 5, '0', STR_PAD_LEFT) }}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+                <div class="bg-white shadow-sm rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gray-900">
+                            <i class="fa-solid fa-address-card"></i> Personal Information
+                        </h3>
                     </div>
                     <div class="p-6">
                         <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
@@ -82,7 +142,7 @@
         <div id="passwordModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6">
             <div class="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity opacity-0"
                 id="modalBackdrop"></div>
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md  overflow-hidden z-10 transition scale-95 opacity-0 transition-all duration-300"
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md  overflow-hidden z-10 scale-95 opacity-0 transition-all duration-300"
                 id="modalContent">
                 <div class="px-4 py-4 border-b border-gray-100 flex justify-between items-center gap-2">
                     <i class="fa-solid fa-lock text-brand-blue"></i> Update Password
@@ -91,7 +151,7 @@
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
-                <form action="{{ route('citizen.profile.password.update') }}" method="POST" class="p-6 space-y-5">
+                <form action="{{ route('employee.profile.password.update') }}" method="POST" class="p-6 space-y-5">
                     @csrf
                     @method('patch')
                     <div>

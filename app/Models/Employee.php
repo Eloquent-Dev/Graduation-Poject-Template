@@ -14,6 +14,7 @@ class Employee extends Model
         'user_id',
         'division_id',
         'job_title',
+        'pending_job_title',
         'dispatch_area',
         'duty_status'
     ];
