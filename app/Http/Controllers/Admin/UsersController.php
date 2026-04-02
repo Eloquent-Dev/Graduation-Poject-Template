@@ -65,18 +65,25 @@ class UsersController extends Controller
 
     public function updateDivision(Request $request,User $user){
         if(!in_array($user->role,['dispatcher','worker','supervisor','admin'])){
-            return back()->with('error','Divisions can only be assigned to employees');
+            return redirect()->route('admin.users.index')->with('error','Divisions can only be assigned to employees');
         }
 
         $validated = $request->validate([
             'division_id' => 'nullable|exists:divisions,id'
         ]);
 
-        $user->employee()->update(['division_id' => $validated['division_id']]);
+        $divisionId = $validated['division_id'] ?? null;
 
-        $divisionName = Division::find($validated['division_id'])->name;
+        $user->employee()->update(['division_id' => $divisionId]);
 
-        return back()->with('success',"{$user->name} has been successfully assigned to: {$divisionName}.");
+        if($divisionId){
+            $divisionName = Division::find($divisionId)->name;
+            $message = "{$user->name} has been successfully assigned to: {$divisionName}.";
+        }else{
+            $message = "{$user->name} has been successfully unassigned from all divisions.";
+        }
+
+        return redirect()->route('admin.users.index')->with('success',$message);
     }
 
     public function destroy(User $user){
