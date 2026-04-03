@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>City Voice - @yield('title', 'Smart Complaint Management')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -136,6 +137,24 @@
                         @endif
                         </div>
                     </div>
+                        @if (auth()->user()->employee)
+                            <div class="flex items-center gap-3 border-r border-white/20 pr-4 mr-2 hidden sm:flex">
+                                <span class="text-[10px] font-bold text-white uppercase tracking-wider" id="duty-status-text">
+                                    {{ auth()->user()->employee->duty_status === 'on_duty' ? 'On Duty' : 'Off Duty' }}
+                                </span>
+
+                                <button type="button" id="duty-toggle-btn"
+                                data-url="{{ route('employee.toggle-duty') }}"
+                                class="relative inline-flex h-6 w-12 shrink-0 pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-in-out focus:outline-none shadow-inner {{ auth()->user()->employee->duty_status === 'on_duty' ? 'bg-linear-to-r from-green-300 to-blue-400' : 'bg-gray-400/50' }}"
+                                role="switch"
+                                aria-checked="{{ auth()->user()->employee->duty_status === 'on_duty' ? 'true' : 'false' }}">
+
+                                <span aria-hidden="true"
+                                class="pointer-events-none inline-block w-5 h-5 transform rounded-full bg-white shadow-md ring-0 transition duration-300 ease-in-out {{ auth()->user()->employee->duty_status === 'on_duty' ? 'translate-x-6' : 'translate-x-0'}}"></span>
+
+                                </button>
+                            </div>
+                        @endif
                     @endauth
                 </div>
                 <div class="flex items-center gap-2">

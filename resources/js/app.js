@@ -143,3 +143,60 @@ if(notificationBtn && notificationDropdown){
     })
 
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dutyToggleBtn = document.getElementById('duty-toggle-btn')
+    const dutyStatusText = document.getElementById('duty-status-text')
+
+    if(dutyToggleBtn){
+        dutyToggleBtn.addEventListener('click', async () =>{
+            const isCurrentlyOn = dutyToggleBtn.getAttribute('aria-checked') === 'true'
+            const willBeOn = !isCurrentlyOn
+
+            updateToggleUI(dutyToggleBtn,dutyStatusText,willBeOn);
+
+            try{
+                const response = await fetch(dutyToggleBtn.dataset.url,{
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({is_on_duty: willBeOn})
+                });
+
+                const data = await response.json()
+
+                if(!response.ok || !data.success) throw new Error('Update failed')
+            }catch (error){
+                console.error('error toggling duty status:', error)
+
+                updateToggleUI(dutyToggleBtn,dutyStatusText,isCurrentlyOn)
+            }
+        });
+    }
+
+    function updateToggleUI(btn, TextElement, isOn){
+        const circle = btn.querySelector('span')
+
+        if(isOn){
+            btn.setAttribute('aria-checked','true')
+            btn.classList.remove('bg-gray-400/50')
+            btn.classList.add('bg-linear-to-r', 'from-green-300', 'to-blue-400')
+
+            circle.classList.remove('translate-x-0')
+            circle.classList.add('translate-x-6')
+            TextElement.innerText = 'On Duty'
+        }
+        else{
+            btn.setAttribute('aria-checked','false')
+            btn.classList.remove('bg-linear-to-r','from-green-300','to-blue-400')
+            btn.classList.add('bg-gray-400/50')
+
+            circle.classList.remove('translate-x-6')
+            circle.classList.add('translate-x-0')
+            TextElement.innerText = 'Off Duty'
+        }
+    }
+})
