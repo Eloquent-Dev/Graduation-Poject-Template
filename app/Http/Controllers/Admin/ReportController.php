@@ -18,7 +18,7 @@ class ReportController extends Controller
     public function generate(){
         $latestReport = AdminReport::latest()->first();
 
-        if($latestReport && $latestReport->created_at->diffInDays(30)->isFuture()){
+        if($latestReport && $latestReport->created_at->addDays(30)->isFuture()){
             $daysLeft = now()->diffInDays($latestReport->created_at->addDays(30));
 
             $displayDays = $daysLeft > 0 ? $daysLeft : 1;
