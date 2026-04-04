@@ -50,12 +50,16 @@
                     <a href="{{ route('admin.users.index') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
                         <i class="fa-solid fa-users w-5 text-center"></i> Users
                     </a>
+                     <a href="{{ route('admin.job-title.index') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
+                        <i class="fa-solid fa-id-badge w-5 text-center"></i> Job Title Approvals
+                    </a>
                     <a href="{{ route('admin.categories.index') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
                         <i class="fa-solid fa-layer-group w-5 text-center"></i> Categories
                     </a>
                     <a href="{{ route('admin.reports.index') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
                         <i class="fa-solid fa-chart-line w-5 text-center"></i> Admin Reports
                     </a>
+
                     @endif
                     <a href="{{ route('complaints.create') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
                         <i class="fa-solid fa-plus w-5 text-center"></i> Submit Complaint
