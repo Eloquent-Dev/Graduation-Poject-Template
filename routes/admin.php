@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\JobTitleApprovalController;
 
 Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group(function(){
 
@@ -35,5 +36,7 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group
  Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
-
+    Route::get('/job-title-pending',[JobTitleApprovalController::class,'index'])->name('job-title.index');
+    Route::post('/job-title/{employee}/approve',[JobTitleApprovalController::class,'approve'])->name('job-title.approve');
+    Route::post('/job-title/{employee}/reject',[JobTitleApprovalController::class,'reject'])->name('job-title.reject');
 });
