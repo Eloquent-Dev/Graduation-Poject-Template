@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\controllers\controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Division;
 
 class CategoryController extends Controller
 {
@@ -30,16 +31,21 @@ class CategoryController extends Controller
     }
     public function create()
      {
-        return view('admin.categories.create');
+        $divisions = Division::all();
+        return view('admin.categories.create', compact('divisions'));
      }
 
      public function store(Request $request)
      {
-        $request->validate([
-            'name'=> 'required|stringmax:255|unique:categories,name'
+        $validated = $request->validate([
+            'name'=> 'required|string|max:255|unique:categories,name',
+            'allowance_period' => 'required|integer|min:1',
+            'division_id' => 'required|exists:divisions,id'
         ]);
         category::create([
-            'name'=> $request->name
+            'name'=> $validated['name'],
+            'allowance_period' => $validated['allowance_period'],
+            'division_id' => $validated['division_id']
         ]);
         return redirect()->route('admin.categories.index')->with('success','Category created successfully!');
      }
