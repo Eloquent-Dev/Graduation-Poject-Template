@@ -45,7 +45,7 @@ class ReportController extends Controller
 
         foreach($resolvedComplaints as $complaint){
             $completionTime = $complaint->approved_at ? Carbon::parse($complaint->approved_at) : $complaint->updated_at;
-            $totalHours += $completionTime->diffInHours($completionTime);
+            $totalHours += $completionTime->diffInHours($complaint->created_at);
         }
 
         $avgResolutionTime = $resolvedComplaints->count() > 0
