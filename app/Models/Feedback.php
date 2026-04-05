@@ -13,7 +13,7 @@ class Feedback extends Model
     protected $fillable =[
         'complaint_id',
         'rating',
-        'quality_comment',
+        'quality_comments',
         'speed_rating',
     ];
 

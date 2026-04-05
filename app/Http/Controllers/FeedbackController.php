@@ -19,10 +19,20 @@ class FeedbackController extends Controller
        $complaint->feedback()->create($validated);
 
         if($validated['rating']<=2.5){
-            $complaint->update(['status' => 'reopened']);
+            $complaint->update(['status' => 'reopened', 'deleted_at' => now()]);
+
+            Complaint::create([
+                'title'=>'Follow-up: '.$complaint->title,
+                'latitude'=>$complaint->latitude,
+                'longitude'=>$complaint->longitude,
+                'description'=>$complaint->feedback->quality_comments ?? 'No additional comments',
+                'category_id'=>$complaint->category_id,
+                'user_id'=>$complaint->user_id,
+                'reopened_from_id'=>$complaint->id
+            ]);
         }
         else{
-            $complaint->update(['status' => 'closed']);
+            $complaint->update(['status' => 'resolved']);
         }
 
         return redirect()->route('complaints.index')->with('success', 'Feedback submitted successfully.');
