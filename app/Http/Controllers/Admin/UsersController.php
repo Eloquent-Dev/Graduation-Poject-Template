@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Division;
 use App\Models\Employee;
 use App\Models\Category;
+use App\Notifications\complaintStatusUpdated;
 
 class UsersController extends Controller
 {
@@ -119,10 +120,16 @@ class UsersController extends Controller
             'status' => 'required|in:pending,under_review,approved,reopened,in_progress,resolved,rejected'
         ]);
 
+        $oldStatus = $complaint->status;
+
         $complaint->update([
             'category_id' => $validated['category_id'],
             'status' => $validated['status']
         ]);
+
+        if($oldStatus !== $validated['status']){
+            $complaint->user->notify(new complaintStatusUpdated($complaint));
+        }
 
         return back()->with('success', 'Complaint Details Updated Successfully.');
     }

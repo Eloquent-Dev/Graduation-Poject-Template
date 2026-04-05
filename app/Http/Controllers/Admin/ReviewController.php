@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\JobOrder;
 use Illuminate\Http\Request;
+use App\Notifications\complaintStatusUpdated;
 
 class ReviewController extends Controller
 {
@@ -90,6 +91,7 @@ class ReviewController extends Controller
                 $message = 'Complaint has been officially rejected & closed.';
                 break;
         }
+                $jobOrder->complaint->user->notify(new complaintStatusUpdated($jobOrder->complaint));
 
         return redirect()->route('admin.reviews.index')->with('success',$message);
     }

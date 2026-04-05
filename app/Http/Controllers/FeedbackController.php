@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use App\Models\Complaint;
+use App\Notifications\newComplaintSubmitted;
 use Illuminate\Http\Request;
+use App\Notifications\complaintStatusUpdated;
+use App\Models\User;
 
 class FeedbackController extends Controller
 {
@@ -21,7 +24,9 @@ class FeedbackController extends Controller
         if($validated['rating']<=2.5){
             $complaint->update(['status' => 'reopened', 'deleted_at' => now()]);
 
-            Complaint::create([
+            $complaint->user->notify(new complaintStatusUpdated($complaint));
+
+            $newComplaint = Complaint::create([
                 'title'=>'Follow-up: '.$complaint->title,
                 'latitude'=>$complaint->latitude,
                 'longitude'=>$complaint->longitude,
@@ -30,9 +35,16 @@ class FeedbackController extends Controller
                 'user_id'=>$complaint->user_id,
                 'reopened_from_id'=>$complaint->id
             ]);
+
+            $dispatchers = User::where('role','dispatcher')->get();
+            foreach($dispatchers as $dispatcher){
+                $dispatcher->notify(new newComplaintSubmitted($newComplaint));
+            }
         }
         else{
             $complaint->update(['status' => 'resolved']);
+
+            $complaint->user->notify(new complaintStatusUpdated($complaint));
         }
 
         return redirect()->route('complaints.index')->with('success', 'Feedback submitted successfully.');

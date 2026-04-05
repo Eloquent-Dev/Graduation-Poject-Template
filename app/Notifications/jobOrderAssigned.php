@@ -49,11 +49,13 @@ class jobOrderAssigned extends Notification
      */
     public function toArray(object $notifiable): array
     {
+        $jobOrder = $this->complaint->jobOrders()->latest()->first();
+
         return [
             'complaint_id' => $this->complaint->id,
             'title' => 'New Job Assignement',
-            'message' => 'You have been assigned to handle a ' . $this->complaint->priority . ' priority issue.',
-            'url' => '/worker/jobs/' . $this->complaint->id,
+            'message' => 'You have been assigned to handle a ' . $this->complaint->jobOrders()->latest()->first()?->priority . ' priority job.' . $this->complaint->title . '.',
+            'url' => '/my-assignments/' . ($jobOrder?->id ?? ''),
             'icon' => 'truck'
         ];
     }

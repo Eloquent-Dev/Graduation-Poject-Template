@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\JobOrder;
+use App\Notifications\complaintStatusUpdated;
+use App\Notifications\completionReportSubmitted;
 use Illuminate\Http\Request;
 use App\Models\CompletionReport;
+use Illuminate\Support\Facades\Notification;
+use App\Models\User;
 
 class SupervisorController extends Controller
 {
@@ -60,9 +64,14 @@ class SupervisorController extends Controller
             'status' => 'under_review'
         ]);
 
+        $jobOrder->complaint->user->notify(new complaintStatusUpdated($jobOrder->complaint));
+
         $jobOrder->workers()->updateExistingPivot($jobOrder->workers->pluck('id'),[
             'worker_status' => 'off_site'
         ]);
+
+        $admins = User::where('role','admin')->get();
+        Notification::send($admins, new completionReportSubmitted($jobOrder->complaint));
 
         return redirect()->route('worker.assignments')->with('success','Completion Report submitted! The job is now under review by administration.');
     }

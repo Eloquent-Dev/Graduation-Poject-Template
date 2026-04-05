@@ -89,6 +89,6 @@ class ComplaintController extends Controller
                 auth()->user()->notify(new ComplaintRecieved($complaint));
             };
 
-        return redirect()->route('home')->with('success','Your complaint has been submitted and is under review');
+        return redirect()->route('home')->with('success','Your complaint has been submitted and is pending');
     }
 }

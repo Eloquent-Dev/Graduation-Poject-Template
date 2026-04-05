@@ -49,12 +49,14 @@ class completionReportSubmitted extends Notification
      */
     public function toArray(object $notifiable): array
     {
+        $jobOrder = $this->complaint->jobOrders()->latest()->first();
+
         return [
             'complaint_id' => $this->complaint->id,
-            'title' => 'Job Completed',
-            'message' => 'A supervisor has marked complaint #' . $this->complaint->id . 'as resolved. Pending review.',
-            'url' => '/admin/reviews/' . $this->complaint->id,
-            'icon' => 'check-circle'
+            'title' => 'Action Required: Job Completed',
+            'message' => 'A supervisor has submitted a completion report for complaint #' . $this->complaint->id . ' ('. $this->complaint->title . '). Pending your review',
+            'url' => '/admin/reviews/' . ($jobOrder?->id ?? ''),
+            'icon' => 'clipboard-check'
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Complaint;
 use App\Notifications\complaintStatusUpdated;
+use App\Notifications\jobOrderAssigned;
 use Illuminate\Http\Request;
 use App\Models\JobOrder;
 use App\Models\Employee;
@@ -85,6 +86,13 @@ class DispatcherController extends Controller
 
         if($jobOrder->complaint->user){
             $jobOrder->complaint->user->notify(new complaintStatusUpdated($jobOrder->complaint));
+        }
+
+        $jobOrder->load('workers.user');
+        foreach($jobOrder->workers as $employee){
+            if($employee->user){
+                $employee->user->notify(new jobOrderAssigned($jobOrder->complaint));
+            }
         }
 
         return redirect()->route('dispatcher.job_orders.index')
