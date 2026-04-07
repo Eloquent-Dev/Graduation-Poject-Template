@@ -33,6 +33,7 @@ class Complaint extends Model
         'category_id',
         'user_id',
         'reopened_from_id',
+        'image_path'
     ];
 
     public function user(){

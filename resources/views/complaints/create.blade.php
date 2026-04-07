@@ -5,7 +5,7 @@
         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
         <h2 class="text-3xl font-bold text-brand-dark mb-6 border-b pb-4">Report an Issue</h2>
 
-        <form action="{{ route('complaints.store') }}" method="post" class="space-y-6">
+        <form action="{{ route('complaints.store') }}" method="post" class="space-y-6" enctype="multipart/form-data">
             @csrf
 
             @guest

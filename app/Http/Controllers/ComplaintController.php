@@ -42,7 +42,7 @@ class ComplaintController extends Controller
             'description' => 'required|string',
             'latitude' => 'required|string',
             'longitude' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:20480'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,heic,heif|max:20480'
         ];
 
         if(!auth()->check()){
@@ -74,7 +74,7 @@ class ComplaintController extends Controller
             'complainant_name' =>$validated['complainant_name'] ?? null,
             'guest_national_no' => $validated['guest_national_no'] ?? null,
             'passport_no' => $validated['passport_no'] ?? null,
-            'image' => $imagePath
+            'image_path' => $imagePath
         ]);
 
         JobOrder::create([
