@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('job:escalate')->hourly()->withoutOverlapping()->runInBackground();
+Schedule::command('complaints:clean-old')->daily()->withoutOverlapping()->runInBackground();

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('closure_reason')->nullable();
             $table->text('return_reason')->nullable();
             $table->foreignId('complaint_id')->constrained('complaints')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
