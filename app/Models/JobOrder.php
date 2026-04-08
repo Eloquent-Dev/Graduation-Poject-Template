@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobOrder extends Model
 {
     /** @use HasFactory<\Database\Factories\JobOrderFactory> */
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'assigned_by',
