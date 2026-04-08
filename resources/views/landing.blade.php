@@ -29,7 +29,7 @@
     </div>
 </section>
 
-<div class="relative z-19 -mt-16 max-w-7xl mx-auto mb-20">
+<div class="relative z-20 -mt-16 max-w-7xl mx-auto mb-20">
     <div class="bg-white rounded-lg shadow-xl grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-100 p-6">
 
         <div class="flex items-start gap-4 p-4">

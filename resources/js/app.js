@@ -85,6 +85,10 @@ if(autoOpen){
 
 const phoneInput1 = document.querySelector("#phone-1");
 
+phoneInput1.addEventListener("countrychange", function(){
+    document.querySelector("#country_code_1").value= iti1.getSelectedCountryData().dailCode;
+});
+
 const iti1 = window.intlTelInput(phoneInput1, {
 
     initialCountry: "auto",

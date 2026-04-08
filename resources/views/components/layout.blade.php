@@ -130,8 +130,8 @@
                                 </a>
                             @empty
                                 <div class="px-4 py-8 text-center text-gray-400">
-                                    <i class="fa-regular fa-bell-slash text-2xl mb"></i>
-                                    <p class="text">You're all caught up!</p>
+                                    <i class="fa-regular fa-bell-slash text-2xl mb-2"></i>
+                                    <p class="text-sm text-gray-500">You're all caught up!</p>
                                 </div>
                             @endforelse
                         </div>
@@ -202,7 +202,7 @@
             <div class="bg-green-100 border-l-4 border-green-500 w-full text-green-700 p-4 rounded shadow-sm flex justify-between items-center" role="alert">
                 <p>{{ session('success') }}</p>
                 <button type="button" onclick="this.closest('.alert-wrapper').remove()" class="close-alert-btn text-green-700 hover:text-green-900 cursor-pointer transition focus:outline-none p-1" aria-label="Close">
-                    <i class="fa-solid fa-xmark text-lg text-[24px] pointer-events-none"></i>
+                    <i class="fa-solid fa-xmark text-[24px] pointer-events-none"></i>
                 </button>
             </div>
         </div>
@@ -257,7 +257,7 @@
 
     <div id="auth-modal" data-auto-open="{{ $autoOpenView }}" class="fixed inset-0 z-100 hidden flex items-center justify-center bg-gray-900/90 transition-opacity">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto relative">
-            <button id="close-auth-btn" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 focus:outline:none transition cursor-pointer">
+            <button id="close-auth-btn" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 focus:outline-none transition cursor-pointer">
                 <i class="fa-solid fa-xmark text-xl pointer-events-none"></i>
             </button>
 

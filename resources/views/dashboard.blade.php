@@ -44,7 +44,7 @@
             <div
                 class="bg-white rounded-xl p-6 border-l-4 border-green-500 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-bold text-gray-500 uppercase traking-wider mb-1">Successfully Resolved</p>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Successfully Resolved</p>
                     <h3 class="text-3xl font-black text-gray-800">{{ $stats['resolved'] }}</h3>
                 </div>
                 <div class="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center text-green-500 text-xl">
@@ -56,13 +56,18 @@
             <div class="mb-6 flex justify-between items-center">
                 <div>
                     <h3 class="font-bold text-gray-800 text-lg">Resolution Time</h3>
-                    <p class="text-xs text-gray-500">Average time taken (in hours) for your complants to reach their
+                    <p class="text-xs text-gray-500">Average time taken (in hours) for your complaints to reach their
                         current status. </p>
                 </div>
                 <i class="fa-solid fa-chart-bar text-gray-300 text-3xl"></i>
             </div>
-            <div class="relative h-80 w-full">
+            <div class="relative h-80 w-full flex items-center justify-center" id="chartContainer">
                 <canvas id="timeChart"></canvas>
+                <div id="chartEmptyState" class="hidden flex-col items-center justify-center h-full w-full text-gray-400 absolute inset-0 bg-white">
+                    <i class="fa-solid fa-chart-line text-4xl mb-3 text-gray-300"></i>
+                    <p class="text-sm font-medium">No data available yet.</p>
+                    <p class="text-xs mt-1">Submit a complaint to start generating.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -72,13 +77,13 @@
             const labels = {!! json_encode($chartLabels) !!};
             const data = {!! json_encode($chartData) !!};
             if (labels.length === 0) {
-                document.getElementById('timeChart').parentElement.innerHTML = `
-                <div class="flex flex-col items-center justify-center h-full text-gray-400">
-                    <i class ="fa-solid fa-chart-line text-4xl mb-3 text-gray-300"></i>
-                    <p class ="text-sm font-medium">No data available yet.</p>
-                    <p class ="text-xs mt-1">Submit a complaint to start generating.</p>
-                    </div>
-                    `;
+                const canvasElement= document.getElementById('timeChart');
+                const emptyStateElement = document.getElementById('chartEmptyState');
+
+                canvasElement.classList.add('hidden');
+
+                emptyStateElement.classList.remove('hidden')
+                emptyStateElement.classList.add('flex');
                 return;
             }
             new Chart(ctx, {
@@ -127,7 +132,7 @@
                         x: {
                             title: {
                                 display: true,
-                                text: 'Currnet Status of Complaint',
+                                text: 'Current Status of Complaint',
                                 font: {
                                     weight: 'bold'
                                 }
