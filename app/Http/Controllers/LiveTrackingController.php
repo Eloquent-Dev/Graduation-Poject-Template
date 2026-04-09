@@ -2,26 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
+use App\Models\JobOrder;
 use Illuminate\Http\Request;
 
 class LiveTrackingController extends Controller
 {
-function index(){
+public function index()
+{
     return view('livetracking.index');
 }
 
-public function getWorkerLocations()
+public function getTrackingData()
 {
-    $workers = Employee::whereHas('user', function ($query) {
-        $query->where('role', 'worker');
-    })
+    $jobOrder = JobOrder::has('workers')
+    ->with(['workers.user','complaint'])
+    ->get()
+    ->map(function($jobOrder){
+        return[
+            'id'=>$jobOrder->id,
+            'priority'=>$jobOrder->priority,
+            'status'=>$jobOrder->status,
+            'complaint_id'=> $jobOrder->complaint_id,
+            'workers'=> $jobOrder->workers->map(function($worker){
+                return[
+                'id'=>$worker->id,
+                'name'=> $worker->user->name ?? 'Unknown Employee',
+                'duty_status'=>$worker->duty_status,
+                'worker_status'=>$worker->pivot->worker_status,
+        ];
+    })->values()->toArray()
+    ];
+    })->values()->toArray();
 
-   ->whereNotNull('latitude')
-    ->whereNotNull('longitude')
-    ->with('user')
-    ->get(['id', 'user_id', 'latitude', 'longitude','job_title','tracking_status', 'updated_at']);
 
-    return response()->json($workers);
+    return response()->json($jobOrder);
 }
 }

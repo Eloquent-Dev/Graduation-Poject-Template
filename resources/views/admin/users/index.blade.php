@@ -154,12 +154,15 @@
                                 </td>
                                 <td class="p-4 text-right">
                                     @if($user->id !== auth()->id())
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('WARNING: Are you sure you want to permanently delete {{ $user->name }}? This action isn\'t reversable.');">
+                                        <form id="delete-user-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             @if($user->role !== 'admin')
-                                            <button class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition border border-red-100 hover:border-red-500 pointer" title="Delete User">
-                                                <i class="fa-solid fa-trash-can"></i>
+                                            <button type="button"
+                                            data-form-id="delete-user-form-{{ $user->id }}"
+                                            data-item-name="{{ $user->name }}"
+                                            class="delete-user-btn text-red-500 cursor-pointer hover:text-red-500 transition p-2 bg-gray-50 hover:bg-red-500 hover:text-white rounded-lg">
+                                            <i class="fa-solid fa-trash-can pointer-events-none"></i>
                                             </button>
                                             @endif
                                         </form>
@@ -186,4 +189,47 @@
             @endif
         </div>
     </div>
+<script>
+    let formToSubmitId= null;
+    function openDeleteModal(buttonElement){
+        formToSubmitId = buttonElement.getAttribute('data-form-id');
+        const itemName = buttonElement.getAttribute('data-item-name');
+        document.getElementById('delete-items-name').innerText = itemName;
+
+        const modal = document.getElementById('delete-modal');
+        const modalCard = document.getElementById('delete-modal-card');
+
+        modal.classList.add('flex');
+        modal.classList.remove('hidden');
+
+        setTimeout(() => {
+            modalCard.classList.remove('scale-95');
+            modalCard.classList.add('scale-100');
+        },10);
+    }
+function closeDeleteModal(){
+    const modal = document.getElementById('delete-modal');
+    const modalCard = document.getElementById('delete-modal-card');
+
+    modalCard.classList.remove('scale-100');
+    modalCard.classList.add('scale-95');
+
+    setTimeout(()=>{
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        formToSubmitId = null;
+    },200);
+}
+document.getElementById('confirm-delete-btn').addEventListener('click',function(){
+    if (formToSubmitId){
+        document.getElementById(formToSubmitId).submit();
+    }
+});
+document.getElementById('delete-modal').addEventListener('click',function(e){
+    if (e.target=== this){
+        closeDeleteModal();
+    }
+    });
+</script>
+
 </x-layout>
