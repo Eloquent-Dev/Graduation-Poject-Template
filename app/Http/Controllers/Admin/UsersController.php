@@ -138,7 +138,9 @@ class UsersController extends Controller
         if($user->id === auth()->id()){
             return back()->with('error','Critical Error: You can\'t delete your own Admin account.');
         }
-
+        if($user->role === 'admin'){
+        return back()->with('error','Security Error: You cannot delete another Admin account.');
+        }
         if($user->employee()->exists()){
             if($user->employee->assignedJobOrders()->count() > 0){
                 return back()->with('error','Can\'t delete user: This employee has active or historical job orders assigned to them.');

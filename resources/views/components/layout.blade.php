@@ -20,6 +20,33 @@
             <div id="menu-backdrop" class="fixed top-20 left-0 w-full h-[calc(100vh-5rem)] bg-gray-900/60 z-30 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out"></div>
             <div id="side-menu" class="fixed top-20 left-0 w-72 bg-linear-to-r from-[#0e162a] to-[#11203f] h-[calc(100vh-5rem)] border-t border-white shadow-2xl z-40 transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
                 <div class="px-4 py-6 space-y-1 flex flex-col h-full">
+
+
+                    <div class="p-6 border-b border-gray-200 flex flex-col items-center text-center bg-gray-50/50">
+                    <div class="w-16 h-16 rounded-full bg-white border border-gray-200 flex items-center text-gray-400 shadow-sm mb-3">
+                        <i class="fa-solid fa-user text-2xl"></i>
+                    </div>
+                    <div>
+                @auth
+                <h3 class="text-sm font-bold text-gray-900">{{ auth()->user()->name }}</h3>
+                <p class="text-xs text-gray-500 mt-0.5">{{ auth()->user()->email }}</p>
+                    @else
+                    <h3 class="text-sm font-bold text-gray-900">Guest User</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Pleaselog in</p>
+                @endauth
+                </div>
+</div>
+<nav class="p-4 space-y-2">
+    <a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition">
+        <i class="fa-solid fa-house"></i>
+        <span class="font-medium text-sm">Dashbord</span>
+    </a>
+<a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition">
+    <i class="fa-solid fa-layer-group"></i>
+    <span class="font-nedium text-sm">Categories</span>
+</a>
+
+</nav>
                     <a href="{{ route('home') }}" class="px-4 py-3 rounded-md text-sm font-medium text-white hover:text-brand-orange hover:bg-white/5 transition flex items-center gap-3">
                         <i class="fa-solid fa-home w-5 text-center"></i> Home
                     </a>

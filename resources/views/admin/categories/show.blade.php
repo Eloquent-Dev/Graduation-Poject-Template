@@ -114,6 +114,11 @@
                                             class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded border {{ $class }}">
                                             {{ str_ireplace('_', ' ', $complaint->status) }}
                                         </span>
+                                        @if($complaint->status === 'rejected' && $complaint->rejection_reason)
+                                        <div class="mt-2 text-xs text-red-600 font-medium">
+                                           rejection reason {{ Str::limit($complaint->rejection_reason,30) }}
+                                        </div>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-500">
                                         {{ $complaint->created_at->format('M d, Y') }}
