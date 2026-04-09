@@ -1,26 +1,24 @@
 <x-layout>
     @section('title', 'My Assignments')
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-8">
-
-
-        <div class="flex justify-between items-end border-b border-gray-200 pb-5 mb-8">
+   <div class="max-w-7xl mx-auto px-6 lg:px-8 py-8 w-full">
+        <div class="flex justify-between items-center border-b border-gray-200 mb-6 pb-5">
             <div>
                 <h2 class="text-3xl font-bold text-brand-dark">My Assignments</h2>
-                <p class="text-gray-500 text-sm mt-1">Your active field tasks for today.</p>
+                <p class="text-gray-500 text-sm">Your active field tasks for today.</p>
             </div>
-            <div class="bg-blue-50 text-brand-blue px-4 py-2 rounded-lg font-bold text-sm shadow-sm">
+            <div class="bg-brand-blue hover:bg-blue-600 text-white px-4 py-2 rounded shadow transition text-sm font-bold flex items-center gap-2">
                 <i class="fa-solid fa-helmet-safety mr-2"></i> Active: {{ $assignments->total() }}
             </div>
         </div>
 
         @if($assignments->isEmpty())
-            <div class="bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-2xl p-12 text-center flex flex-col items-center justify-center min-h-100 transition-all hover:bg-gray-50 hover:border-gray-300 shadow-sm mt-10">
-                <div class="w-24 h-24 bg-green-50 text-green-500 rounded-full relative flex items-center justify-center mx-auto mb-6">
-                    <i class="fa-solid fa-mug-hot text-3xl"></i>
+            <div class="bg-white p-12 rounded-xl shadow-sm border border-gray-100 max-w-2xl mx-auto mt-12 text-center">
+                <div class="w-16 h-16 bg-blue-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-mug-hot text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">No Active Assignments</h3>
-                <p class="text-gray-500 text-sm">You have no pending tasks. Take a break or check back later.</p>
+                <h3 class="text-lg font-bold text-gray-800">No Active Assignments</h3>
+                <p class="text-gray-500 text-sm mt-1">You have no pending tasks. Take a break or check back later.</p>
             </div>
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
