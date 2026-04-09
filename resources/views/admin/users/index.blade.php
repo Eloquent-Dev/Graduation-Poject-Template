@@ -154,15 +154,16 @@
                                 </td>
                                 <td class="p-4 text-right">
                                     @if($user->id !== auth()->id())
-                                        <form id="delete-user-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                                        <form id="delete-user-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             @if($user->role !== 'admin')
                                             <button type="button"
+                                            onclick="openDeleteModal(this)"
                                             data-form-id="delete-user-form-{{ $user->id }}"
                                             data-item-name="{{ $user->name }}"
-                                            class="delete-user-btn text-red-500 cursor-pointer hover:text-red-500 transition p-2 bg-gray-50 hover:bg-red-500 hover:text-white rounded-lg">
-                                            <i class="fa-solid fa-trash-can pointer-events-none"></i>
+                                            class="w-8 h-8 bg-red-50 text-red-600 pointer transition p-2 hover:bg-red-100 hover:text-red-700 flex items-center justify-center rounded-lg" title="Delete User">
+                                            <i class="fa-solid fa-trash-can"></i>
                                             </button>
                                             @endif
                                         </form>
@@ -187,6 +188,30 @@
                     {{ $users->links() }}
                 </div>
             @endif
+        </div>
+    </div>
+    <div id="delete-modal" class="fixed inset-0 z-50 hidden items-center justify-center  transition-opacity duration-200">
+        <div id="delete-modal-card" class="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-200">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-red-100 mb-4">
+                    <i class="fa-solid fa-triangle-exclamation text-red-600 text-2xl"></i>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Confirm Deletion</h3>
+
+                <p class="text-sm text-gray-500 mb-6">
+                    Are you sure you want to delete <span id="delete-items-name" class="font-bold text-gray-900 px-1 py-0.5 bg-gray-100 rounded"></span>? This action can't be undone.
+                </p>
+
+                <div class="flex justify-center gap-3">
+                    <button type="button" onclick="closeDeleteModal()" class="px-5 py-2.5 bg-gray-100 text-gray-700 hover:bg-gray-200 font-bold rounded-xl transition duration-150 pointer">
+                        Cancel
+                    </button>
+                    <button type="button" id="confirm-delete-btn" class="px-5 py-2.5 bg-red-600 text-white hover:bg-red-700 font-bold rounded-xl transition duration-150 shadow-sm shadow-red-200 pointer">
+                        Yes, Delete
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 <script>

@@ -58,10 +58,11 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button"
+                                                onclick="openDeleteModal(this)"
                                                 data-form-id="delete-category-form-{{ $category->id }}"
                                                 data-item-name="{{ $category->name }}"
-                                                class="delete-user-btn text-red-500 cursor-pointer hover:text-red-500 transition p-2 bg-gray-50 hover:bg-red-500 hover:text-white rounded-lg">                                            class="text-gray-400 cursor-pointer hover:text-red-500 transition p-2 bg-gray-50 hover:bg-red-50 rounded-lg">
-                                            <i class="fa-solid fa-trash-can pointer-events-none"></i>
+                                                class="w-8 h-8 bg-red-50 text-red-600 pointer transition p-2 hover:bg-red-100 hover:text-red-700 flex items-center justify-center rounded-lg" title="Delete Category">
+                                            <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                         </form>
                                     </div>
@@ -86,29 +87,30 @@
     </div>
 
 
-    <div id="delete-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-gray-900/60 backdrop-blur-sm transition-opacity">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform scale-95 transition-transform duration-300" id="delete-modal-card">
-        <div class="p-6 sm:p-8 text-center">
-            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-6 shadow-inner">
-                <i class="fa-solid fa-triangle-exclamation text-3xl text-red-600"></i>
-            </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-2">Confirm Deletion</h3>
-            <p class="text-gray-500 mb-8 text-sm">
-                Are you sure you want to premanently delete <br>
-                <span id="delete-items-name" class="font-bold text-lg text-gray-800 bg-gray-100 px-2 py-1 rounded mt-2 inline-block"></span><br><br>
-                This action cannot be undone.
-            </p>
-            <div class="flex justify-center gap-4">
-                <button type="button" onclick="closeDeleteModal()" class="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-bold hover:bg-gray-50 transition cursor-pointer w-full shadow-sm">
-                    Cancel
-                </button>
-                <button type="button" id="confirm-delete-btn" class="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold transition shadow-md cursor-pointer w-full shadow-sm">
-                    Yes, Delete
-                </button>
+    <div id="delete-modal" class="fixed inset-0 z-50 hidden items-center justify-center  transition-opacity duration-200">
+        <div id="delete-modal-card" class="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-200">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-red-100 mb-4">
+                    <i class="fa-solid fa-triangle-exclamation text-red-600 text-2xl"></i>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Confirm Deletion</h3>
+
+                <p class="text-sm text-gray-500 mb-6">
+                    Are you sure you want to delete <span id="delete-items-name" class="font-bold text-gray-900 px-1 py-0.5 bg-gray-100 rounded"></span>? This action can't be undone.
+                </p>
+
+                <div class="flex justify-center gap-3">
+                    <button type="button" onclick="closeDeleteModal()" class="px-5 py-2.5 bg-gray-100 text-gray-700 hover:bg-gray-200 font-bold rounded-xl transition duration-150 pointer">
+                        Cancel
+                    </button>
+                    <button type="button" id="confirm-delete-btn" class="px-5 py-2.5 bg-red-600 text-white hover:bg-red-700 font-bold rounded-xl transition duration-150 shadow-sm shadow-red-200 pointer">
+                        Yes, Delete
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <script>
     let formToSubmitId= null;
     function openDeleteModal(buttonElement){
