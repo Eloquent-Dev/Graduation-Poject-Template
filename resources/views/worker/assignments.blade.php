@@ -64,11 +64,7 @@
                                     <i class="fa-solid fa-route"></i> Map
                                 </a>
 
-                                @if(!$isWorkerOnDuty)
-                                <div class="w-full h-full flex item-center justify-center gap-2 px-2 py-2 bg-red-50 text-red-500 text-[10px] font-bold rounded-lg border border-red-100 text-center leading-tight">
-                                    Clock In First
-                                </div>
-                                @else
+
                                     @php $myStatus = $assignment->pivot->worker_status @endphp
 
                                     @if ($myStatus === 'off_site')
@@ -99,7 +95,6 @@
                                         </button>
                                     </form>
                                     @endif
-                                @endif
                             </div>
                             <a href="{{ route('worker.assignments.show',$assignment->id) }}" class="w-full block text-center text-xs font-bold text-gray-500 hover:text-brand-blue transition mt-2">
                                 View Task Details & Crew <i class="fa-solid fa-arrow-right ml-1"></i>

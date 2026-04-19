@@ -47,7 +47,7 @@
                 <i class="fa-solid fa-magnifying-glass-location text-xl w-6 text-center"></i>
             </div>
             <div>
-                <h3 class="font-bold text-gray-800 text-sm">Live Tracking</h3>
+                <h3 class="font-bold text-gray-800 text-sm">Real-Time Tracking</h3>
                 <p class="text-xs text-gray-500 mt-1">Monitor the progress in real time.</p>
             </div>
         </div>
@@ -157,15 +157,14 @@
                         <a href="{{ route('complaints.create') }}" class="bg-brand-blue hover:bg-blue-800 text-white px-6 py-2.5 rounded shadow font-semibold text-sm transition">
                             Submit Report
                         </a>
+                        <a href="{{ route('complaints.index') }}" class="bg-white border border-gray-300 hover:border-brand-blue hover:text-brand-blue text-gray-700 px-6 py-2.5 rounded shadow-sm font-semibold text-sm transition">
+                            Track Your Complaints
+                        </a>
                     @else
                         <button onclick="document.getElementById('open-auth-btn').click()" class="bg-brand-blue pointer hover:bg-blue-800 text-white px-6 py-2.5 rounded shadow font-semibold text-sm transition">
                             Get Started
                         </button>
                     @endauth
-
-                    <a href="#" class="bg-white border border-gray-300 hover:border-brand-blue hover:text-brand-blue text-gray-700 px-6 py-2.5 rounded shadow-sm font-semibold text-sm transition">
-                        Track Your Complaint
-                    </a>
                 </div>
             </div>
 
