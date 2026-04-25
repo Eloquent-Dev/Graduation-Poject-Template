@@ -73,7 +73,7 @@
                     <h3 class="text-orange-600 font-bold uppercase tracking-wider text-xs">Awaiting QA Review</h3>
                     <i class="fa-solid fa-hourglass-start text-orange-500"></i>
                 </div>
-                <p class="text-3xl font-black text-orange-700">{{ $report->metrics['total_under_review'] === 0 ? 'N/A' : $report->metrics['total_pending'] }}</p>
+                <p class="text-3xl font-black text-orange-700">{{ $report->metrics['total_under_review'] === 0 ? 'N/A' : $report->metrics['total_under_review'] }}</p>
             </div>
             <div class="bg-white rounded-xl p-6 border border-rose-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
@@ -109,8 +109,8 @@
 
                     <ul class="text-sm space-y-2 text-gray-600">
                         <li><i class="fa-solid fa-circle text-green-500 text-[10px] mr-2"></i><span class="font-bold">{{ $report->metrics['resolution_rate'] === 0 ? 'N/A' : $report->metrics['resolution_rate'] . '%' }}</span> Success Rate</li>
-                        <li><i class="fa-solid fa-circle text-red-500 text-[10px] mr-2"></i> <span class="font-bold">{{ $report->metrics['total_rejected'] === 0 ? 'N/A' : $report->metrics['total_rejected'] . '%' }}</span> Rejected as Invalid</li>
-                        <li><i class="fa-solid fa-circle text-brand-orange text-[10px] mr-2"></i> <span class="font-bold">{{ $report->metrics['avg_resolution_hours'] === 0 ? 'N/A' : $report->metrics['avg_resolution_hours'] }}</span> Avg. {{ Str::plural('Hour',$report->metrics['avg_resolution_hours']) }} to Resolve</li>
+                        <li><i class="fa-solid fa-circle text-red-500 text-[10px] mr-2"></i><span class="font-bold">{{ $report->metrics['total_rejected'] === 0 ? 'N/A' : $report->metrics['total_rejected'] . '%' }}</span> Rejected as Invalid</li>
+                        <li><i class="fa-solid fa-circle text-brand-orange text-[10px] mr-2"></i><span class="font-bold">{{ $report->metrics['avg_resolution_hours'] === 0 ? 'N/A' : $report->metrics['avg_resolution_hours'] }}</span> Avg. {{ Str::plural('Hour',$report->metrics['avg_resolution_hours']) }} to Resolve</li>
                     </ul>
                 </div>
             </div>
@@ -164,7 +164,7 @@
                                     }
                                 }
                             }
-                            
+
                         }
                     }
                 });

@@ -50,9 +50,16 @@
                                     {{ $review->completionReport?->completed_at->format('M d, Y h:i A') ?? 'Unknown time' }}
                                 </td>
                                 <td class="p-4 text-right">
-                                    <a class="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-brand-blue hover:bg-brand-blue hover:text-white text-xs font-bold rounded transition border border-blue-200 hover:border-brand-blue" href="{{ route('admin.reviews.show',$review->id) }}">
-                                        Reveiw Report <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('admin.reviews.export_pdf', $review->id) }}" class="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-brand-blue hover:bg-brand-blue hover:text-white text-xs font-bold rounded transition border border-blue-200 hover:border-brand-blue">
+                                            <i class="fa-solid fa-file-pdf"></i> PDF
+                                        </a>
+
+                                        <a class="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-brand-blue hover:bg-brand-blue hover:text-white text-xs font-bold rounded transition border border-blue-200 hover:border-brand-blue" href="{{ route('admin.reviews.show',$review->id) }}">
+                                            Review Report <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+
                                 </td>
                             </tr>
                         @endforeach

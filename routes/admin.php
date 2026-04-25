@@ -11,6 +11,7 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group
     Route::get('/reviews',[ReviewController::class,'index'])->name('reviews.index');
     Route::get('/reviews/{jobOrder}',[ReviewController::class,'show'])->name('reviews.show');
     Route::patch('/reviews/{jobOrder}/process',[ReviewController::class,'process'])->name('reviews.process');
+    Route::get('/reviews/{jobOrder}/export-pdf',[ReviewController::class,'exportPDF'])->name('reviews.export_pdf');
 
     //User Management Routes
     Route::get('/users',[UsersController::class,'index'])->name('users.index');
@@ -26,6 +27,7 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group
     Route::get('/reports',[ReportController::class,'index'])->name('reports.index');
     Route::post('/reports/generate',[ReportController::class,'generate'])->name('reports.generate');
     Route::get('/reports/{report}',[ReportController::class,'show'])->name('reports.show');
+    Route::get('/reports/{report}/export',[ReportController::class,'exportPDF'])->name('reports.export_pdf');
 
     //Category Management Routes
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');

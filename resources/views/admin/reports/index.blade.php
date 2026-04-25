@@ -72,9 +72,15 @@
                                     <span class="block text-xs text-gray-400">{{ $report->created_at->format('h:i A') }}</span>
                                 </td>
                                 <td class="p-4 text-right">
-                                    <a href="{{ route('admin.reports.show',$report->id) }}" class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-bold transition shadow-sm">
-                                        View Details <i class="fa-solid fa-arrow-right text-xs"></i>
-                                    </a>
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('admin.reports.export_pdf', $report->id) }}" class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-bold transition shadow-sm">
+                                            <i class="fa-solid fa-file-pdf"></i> Download PDF
+                                        </a>
+
+                                        <a href="{{ route('admin.reports.show',$report->id) }}" class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-bold transition shadow-sm">
+                                            View Details <i class="fa-solid fa-arrow-right text-xs"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         @empty

@@ -7,6 +7,7 @@ use App\Models\AdminReport;
 use Illuminate\Http\Request;
 use App\Models\Complaint;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
@@ -77,5 +78,14 @@ class ReportController extends Controller
 
     public function show(AdminReport $report){
         return view('admin.reports.show', compact('report'));
+    }
+
+    public function exportPDF(AdminReport $report){
+
+        $pdf = Pdf::loadView('admin.reports.pdf', compact('report'));
+
+        $filename = 'KPI_Report_' . $report->created_at->format('Y_m_d') . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

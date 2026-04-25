@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\JobOrder;
 use Illuminate\Http\Request;
 use App\Notifications\complaintStatusUpdated;
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 
 class ReviewController extends Controller
 {
@@ -94,5 +95,16 @@ class ReviewController extends Controller
                 $jobOrder->complaint->user->notify(new complaintStatusUpdated($jobOrder->complaint));
 
         return redirect()->route('admin.reviews.index')->with('success',$message);
+    }
+
+    public function exportPDF(JobOrder $jobOrder){
+
+        $jobOrder->load(['complaint.category','complaint.user','workers.user','completionReport']);
+
+        $pdf = PDF::loadView('admin.reviews.pdf', compact('jobOrder'));
+
+        $filename = 'QA_Review_Report_#'. $jobOrder->id . '_' . now()->format('Y_m_d') . '.pdf';
+
+        return $pdf->download($filename);
     }
 }
