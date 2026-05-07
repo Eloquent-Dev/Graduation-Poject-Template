@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="space-y-6 ">
+            <div class="space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-t-brand-orange">
                     <h3 class="text-sm font-bold text-brand-dark mb-4"><i class="fa-solid fa-users-gear mr-2 text-brand-orange"></i> Assign Field Team</h3>
 

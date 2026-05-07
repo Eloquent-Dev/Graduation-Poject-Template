@@ -40,6 +40,10 @@
                     <th>Successfully Resolved</th>
                     <td>{{ $report->metrics['total_resolved'] ?? 'N/A' }}</td>
                 </tr>
+                <tr class="highlight">
+                    <th>Successfully Approved</th>
+                    <td>{{ $report->metrics['total_approved'] ?? 'N/A' }}</td>
+                </tr>
                 <tr>
                     <th>Currently In Progress</th>
                     <td>{{ $report->metrics['total_in_progress'] ?? 'N/A' }}</td>

@@ -20,8 +20,8 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="bg-linear-to-r from-brand-dark to-brand-blue rounded-xl p-6 shadow-sm text-white col-span-1 md:col-span-2 lg:col-span-4 flex items-center justify-between">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+            <div class="bg-linear-to-r from-brand-dark to-brand-blue rounded-xl p-6 shadow-sm text-white col-span-1 md:col-span-2 lg:col-span-5 flex items-center justify-between">
                 <div>
                     <h3 class="text-white/80 font-bold uppercase tracking-wider text-sm mb-1">Average Lifecycle Response Time</h3>
                     <p class="text-4xl font-black">{{ $report->metrics['avg_resolution_hours'] === 0 ? 'N/A' : $report->metrics['avg_resolution_hours']  }} <span class="text-xl font-medium text-white/70">{{ Str::plural('Hour', $report->metrics['avg_resolution_hours']) }}</span></p>
@@ -33,61 +33,75 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-gray-400 border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-gray-600 font-bold uppercase tracking-wider text-xs">Total Complaints Recieved</h3>
                     <i class="fa-solid fa-inbox text-gray-400"></i>
                 </div>
                 <p class="text-3xl font-black text-gray-900">{{ $report->metrics['total_received'] === 0 ? 'N/A' : $report->metrics['total_received'] }}</p>
             </div>
-            <div class="bg-white rounded-xl p-6 border border-green-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-green-400 border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-green-600 font-bold uppercase tracking-wider text-xs">Successfully Resolved</h3>
+                    <h3 class="text-green-600 font-bold uppercase tracking-wider text-xs">Successfully Approved</h3>
                     <i class="fa-solid fa-check-double text-green-500"></i>
                 </div>
-                <p class="text-3xl font-black text-green-700">{{ $report->metrics['total_resolved'] === 0 ? 'N/A' : $report->metrics['total_resolved'] }}</p>
+                <p class="text-3xl font-black text-green-700">{{ $report->metrics['total_approved'] === 0 ? 'N/A' : $report->metrics['total_approved'] }}</p>
             </div>
-            <div class="bg-white rounded-xl p-6 border border-blue-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-emerald-300 border-gray-200 shadow-sm flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-emerald-400 font-bold uppercase tracking-wider text-xs">Successfully Resolved</h3>
+                    <i class="fa-solid fa-check-double text-emerald-400"></i>
+                </div>
+                <p class="text-3xl font-black text-emerald-400">{{ $report->metrics['total_resolved'] === 0 ? 'N/A' : $report->metrics['total_resolved'] }}</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-blue-400 border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-blue-600 font-bold uppercase tracking-wider text-xs">Resolution Rate</h3>
                     <i class="fa-solid fa-chart-pie text-brand-blue"></i>
                 </div>
                 <p class="text-3xl font-black text-brand-blue">{{ $report->metrics['resolution_rate'] === 0 ? 'N/A' : $report->metrics['resolution_rate']. '%' }}</p>
             </div>
-            <div class="bg-white rounded-xl p-6 border border-yellow-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-yellow-400 border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-yellow-600 font-bold uppercase tracking-wider text-xs">Awaiting Dispatch</h3>
                     <i class="fa-solid fa-hourglass-start text-yellow-500"></i>
                 </div>
                 <p class="text-3xl font-black text-yellow-700">{{ $report->metrics['total_pending'] === 0 ? 'N/A' : $report->metrics['total_pending'] }}</p>
             </div>
-            <div class="bg-white rounded-xl p-6 border border-purple-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-teal-500 border-gray-200 shadow-sm flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-teal-600 font-bold uppercase tracking-wider text-xs">Active Caseload</h3>
+                    <i class="fa-solid fa-layer-group text-teal-500"></i>
+                </div>
+                <p class="text-3xl font-black text-teal-700">{{ ($report->metrics['total_pending'] ?? 0) + ($report->metrics['total_in_progress'] ?? 0) }}</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-purple-400 border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-purple-600 font-bold uppercase tracking-wider text-xs">Currently In Progress</h3>
                     <i class="fa-solid fa-hourglass-half text-purple-500"></i>
                 </div>
                 <p class="text-3xl font-black text-purple-700">{{ $report->metrics['total_in_progress'] === 0 ? 'N/A' : $report->metrics['total_in_progress'] }}</p>
             </div>
-            <div class="bg-white rounded-xl p-6 border border-orange-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-orange-400 border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-orange-600 font-bold uppercase tracking-wider text-xs">Awaiting QA Review</h3>
                     <i class="fa-solid fa-hourglass-start text-orange-500"></i>
                 </div>
                 <p class="text-3xl font-black text-orange-700">{{ $report->metrics['total_under_review'] === 0 ? 'N/A' : $report->metrics['total_under_review'] }}</p>
             </div>
-            <div class="bg-white rounded-xl p-6 border border-rose-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-rose-400 border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-rose-600 font-bold uppercase tracking-wider text-xs">Reopened (UnSolved)</h3>
                     <i class="fa-solid fa-arrow-rotate-left text-rose-500"></i>
                 </div>
                 <p class="text-3xl font-black text-rose-700">{{ $report->metrics['total_reopened'] === 0 ? 'N/A' : $report->metrics['total_reopened'] }}</p>
             </div>
-            <div class="bg-white rounded-xl p-6 border border-red-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white rounded-xl p-6 border border-l-4 border-l-red-400 border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-red-600 font-bold uppercase tracking-wider text-xs">Rejected / Invalid</h3>
                     <i class="fa-solid fa-ban text-red-500"></i>
                 </div>
-                <p class="text-3xl font-black text-red-700">{{ $report->metrics['total_rejected'] === 0 ? 'N/A' : $report->metrics['total_rejected']. '%' }}</p>
+                <p class="text-3xl font-black text-red-700">{{ $report->metrics['total_rejected'] === 0 ? 'N/A' : $report->metrics['total_rejected'] }}</p>
             </div>
         </div>
 
@@ -109,7 +123,7 @@
 
                     <ul class="text-sm space-y-2 text-gray-600">
                         <li><i class="fa-solid fa-circle text-green-500 text-[10px] mr-2"></i><span class="font-bold">{{ $report->metrics['resolution_rate'] === 0 ? 'N/A' : $report->metrics['resolution_rate'] . '%' }}</span> Success Rate</li>
-                        <li><i class="fa-solid fa-circle text-red-500 text-[10px] mr-2"></i><span class="font-bold">{{ $report->metrics['total_rejected'] === 0 ? 'N/A' : $report->metrics['total_rejected'] . '%' }}</span> Rejected as Invalid</li>
+                        <li><i class="fa-solid fa-circle text-red-500 text-[10px] mr-2"></i><span class="font-bold">{{ $report->metrics['total_rejected'] === 0 ? 'N/A' : $report->metrics['total_rejected'] }}</span> Rejected as Invalid</li>
                         <li><i class="fa-solid fa-circle text-brand-orange text-[10px] mr-2"></i><span class="font-bold">{{ $report->metrics['avg_resolution_hours'] === 0 ? 'N/A' : $report->metrics['avg_resolution_hours'] }}</span> Avg. {{ Str::plural('Hour',$report->metrics['avg_resolution_hours']) }} to Resolve</li>
                     </ul>
                 </div>
@@ -125,23 +139,26 @@
                 new Chart(ctx, {
                     type: 'pie',
                     data: {
-                        labels: ['Resolved', 'Pending', 'In Progress', 'Under Review', 'Reopened','Rejected'],
+                        labels: ['Resolved','Approved', 'Pending', 'In Progress', 'Under Review', 'Reopened','Rejected'],
                         datasets:[{
                             data:[
                                 {{ $report->metrics['total_resolved'] ?? 0 }},
+                                {{ $report->metrics['total_approved'] ?? 0 }},
                                 {{ $report->metrics['total_pending'] ?? 0 }},
                                 {{ $report->metrics['total_in_progress'] ?? 0 }},
                                 {{ $report->metrics['total_under_review'] ?? 0 }},
                                 {{ $report->metrics['total_reopened'] ?? 0 }},
-                                {{ $report->metrics['total_rejected'] ?? 0 }}
+                                {{ $report->metrics['total_rejected'] ?? 0 }},
                             ],
                             backgroundColor:[
                                 '#16a34a',
+                                '#2563eb',
                                 '#ca8a04',
                                 '#9333ea',
                                 '#ea580c',
                                 '#e11d48',
-                                '#dc2626'
+                                '#dc2626',
+
                             ],
                             borderWidth: 2,
                             borderColor: '#ffffff',
