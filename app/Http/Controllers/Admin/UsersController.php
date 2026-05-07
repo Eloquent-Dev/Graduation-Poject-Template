@@ -101,7 +101,17 @@ class UsersController extends Controller
     }
 
     public function showComplaint(Complaint $complaint){
-        $complaint->load('user');
+        $complaint->load([
+            'user',
+            'category',
+            'approvedBy.user',
+            'rejectedBy.user',
+            'resolvedBy.user',
+            'jobOrders.assignedBy.user',
+            'jobOrders.workers.user',
+            'jobOrders.completionReport.reportedBy.user',
+            'feedback'
+        ]);
         session()->put('complaint_id', $complaint->id);
 
         return view('admin.users.complaints.show', compact('complaint'));
