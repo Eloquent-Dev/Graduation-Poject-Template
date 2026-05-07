@@ -14,5 +14,8 @@ Route::middleware(['auth','role:dispatcher'])->prefix('dispatcher')->name('dispa
 
     Route::patch('/job-orders/{jobOrder}',[DispatcherController::class,'update'])
     ->name('job_orders.update');
+
+    Route::patch('/job-orders/{jobOrder}/urgency',[DispatcherController::class,'updateUrgency'])
+    ->name('job_orders.update_urgency');
 });
 

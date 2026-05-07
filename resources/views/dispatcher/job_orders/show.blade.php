@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="space-y-6">
+            <div class="space-y-6 ">
                 <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-t-brand-orange">
                     <h3 class="text-sm font-bold text-brand-dark mb-4"><i class="fa-solid fa-users-gear mr-2 text-brand-orange"></i> Assign Field Team</h3>
 
@@ -97,6 +97,33 @@
                         </button>
                     </form>
                 </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-t-brand-orange">
+                    <h4 class="text-sm font-bold text-gray-800 mb-3"><i class="fa-solid fa-camera mr-2 text-brand-orange"></i> Attached Evidence</h4>
+
+                    @if ($jobOrder->complaint->image_path)
+                        <img src="{{ asset('storage/'.$jobOrder->complaint->image_path) }}" alt="Attached evidence for complaint #{{ $jobOrder->complaint->id }}" class="w-full  object-cover rounded-lg border border-gray-200 shadow-sm">
+                    @else
+                        <div class="bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg p-8 text-center text-gray-500">
+                            <i class="fa-solid fa-image-slash text-3xl mb-2 text-gray-400"></i>
+                            <p class="text-sm font-medium">No photo evidence available.</p>
+                        </div>
+                    @endif
+                </div>
+                <div id="urgency-card" class="mb-8 border {{ $jobOrder->is_urgent ? 'bg-red-50 border-red-300' : 'bg-white border-gray-200' }} p-5 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between shadow-sm gap-4 transition-colors duration-300">
+                    <div>
+                        <h4 class="font-bold {{ $jobOrder->is_urgent ? 'text-red-900' : 'text-gray-900' }}" id="urgency-title"><i class="fa-solid fa-triangle-exclamation mr-2 {{ $jobOrder->is_urgent ? 'text-red-500' : 'text-gray-400' }}" id="urgency-icon"></i> Triage & Urgency Assessment</h4>
+                        <p class="text-sm {{ $jobOrder->is_urgent ? 'text-red-700' : 'text-gray-500' }} mt-1" id="urgency-desc">Review the citizen's description and evidence. Does this require emergency response?</p>
+                    </div>
+                    <label class="relative inline-flex items-center pointer shrink-0">
+                        <input type="checkbox" id="urgency-toggle" class="sr-only peer" onchange="toggleUrgency({{ $jobOrder->id }}, this)" {{ $jobOrder->is_urgent ? 'checked': '' }}>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
+                        <span id="urgency-label" class="ml-3 text-sm font-bold {{ $jobOrder->is_urgent ? 'text-red-700' : 'text-gray-600' }}">
+                            {{ $jobOrder->is_urgent ? 'Urgent Priority' : 'Normal Priority' }}
+                        </span>
+                    </label>
+                </div>
+
+                <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
             </div>
         </div>
     </div>
@@ -123,6 +150,113 @@
                 map: map,
                 animation: google.maps.Animation.DROP,
             });
+        }
+
+        async function toggleUrgency(complaintId, checkbox){
+            const isUrgent = checkbox.checked ? 1 : 0
+
+            const card = document.getElementById('urgency-card');
+            const label = document.getElementById('urgency-label');
+            const icon = document.getElementById('urgency-icon');
+            const title = document.getElementById('urgency-title');
+            const desc = document.getElementById('urgency-desc');
+
+            checkbox.disabled = true;
+
+            try{
+                const response = await fetch(`/dispatcher/job-orders/${complaintId}/urgency`,{
+                    method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    is_urgent: isUrgent
+                })
+            });
+            if(!response.ok) {
+                    const errorHTML = await response.text()
+                    consle.error("Laravel Server Error:", errorHTML)
+                    throw new Error(`HTTP Error: ${response.status}`)
+                }
+
+            const data = await response.json()
+            checkbox.disabled = false
+
+            if(data.success){
+
+                    if(isUrgent){
+                        card.classList.remove('bg-white','border-gray-200')
+                        card.classList.add('bg-red-50','border-red-300')
+
+                        label.classList.remove('text-gray-600')
+                        label.classList.add('text-red-700')
+                        label.innerText = 'Urgent Priority'
+
+                        icon.classList.remove('text-gray-900')
+                        icon.classList.add('text-red-500')
+
+                        title.classList.remove('text-gray-900')
+                        title.classList.add('text-red-900')
+
+                        desc.classList.remove('text-gray-500')
+                        desc.classList.add('text-red-700')
+                    }
+                    else{
+                        card.classList.remove('bg-red-50','border-red-300')
+                        card.classList.add('bg-white','border-gray-200')
+
+                        label.classList.remove('text-red-700')
+                        label.classList.add('text-gray-600')
+                        label.innerText = 'Not Urgent'
+
+                        icon.classList.remove('text-red-500')
+                        icon.classList.add('text-gray-900')
+
+                        desc.classList.remove('text-red-700')
+                        desc.classList.add('text-gray-500')
+                    }
+
+                    showToast('Urgency Updated', 'Urgency status has been updated successfully.', 'success')
+                }
+        } catch(error){
+                checkbox.disabled = false
+                checkbox.checked = !isUrgent
+
+                console.error("Javascript Caught Errors", error)
+
+                showToast('Urgency Update Failed', 'There was an error updating the urgency status. Please try again.', 'error')
+            }
+        }
+
+        function showToast(title, message, type){
+            const container = document.getElementById('toast-container');
+            const bgColor = type === 'success' ? 'bg-green-600' : 'bg-red-600';
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+            const toast = document.createElement('div');
+            toast.className = `flex items-center w-full max-w-xs p-4 text-white ${bgColor} rounded-lg shadow-lg transform transition-all duration-300 translate-y-10 opacity-0`;
+            toast.innerHTML = `
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-white/20">
+                <i class="fa-solid ${icon}"></i>
+            </div>
+            <div class="ml-3 text-sm font-normal">
+                <span class="mb-1 text-sm font-bold text-white block">${title}</span>
+                <div class="text-xs text-white/90">${message}</div>
+            </div>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-10');
+                setTimeout(() => toast.remove(), 300)
+            }, 3000);
         }
     </script>
 </x-layout>

@@ -29,6 +29,7 @@
                             <tr class="bg-gray-50 border-b boder-gray-100 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 <th class="px-6 py-4">Job Order ID</th>
                                 <th class="px-6 py-4">Priority</th>
+                                <th class="px-6 py-4">Urgency</th>
                                 <th class="px-6 py-4">Linked Issue</th>
                                 <th class="px-6 py-4">Status</th>
                                 <th class="px-6 py-4">Assigned Team</th>
@@ -59,6 +60,17 @@
                                         <span class="px-3 py-1 rounded-full text-[10px] font-bold border {{ $pColor }}">
                                             <i class="fa-solid fa-flag mr-1"></i> {{ strtoupper($job->priority) }}
                                         </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if($job->is_urgent)
+                                            <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-red-100 text-red-800 border-red-200 animate-pulse">
+                                                <i class="fa-solid fa-triangle-exclamation mr-1"></i> URGENT
+                                            </span>
+                                        @else
+                                            <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-800 border-gray-200">
+                                                <i class="fa-solid fa-check mr-1"></i> Normal
+                                            </span>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         <p class="text-sm font-bold text-gray-800">{{ $job->complaint->title }}</p>

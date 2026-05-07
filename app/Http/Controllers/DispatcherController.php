@@ -15,14 +15,11 @@ class DispatcherController extends Controller
     public function index(){
         $jobOrders = JobOrder::with(['complaint.category','complaint.user','workers'])
         ->whereIn('status', ['pending','reopened','in_progress'])
-        ->orderByRaw("
-        CASE priority
-        WHEN 'high' THEN 1
-        WHEN 'medium' THEN 2
-        WHEN 'low' THEN 3
-        ELSE 4
-        END ASC")
-        ->latest()
+        ->orderByDesc('is_urgent')
+        ->orderByRaw('priority' . " = 'high' DESC, " .
+                    'priority' . " = 'medium' DESC, " .
+                    'priority' . " = 'low' DESC")
+        ->oldest()
         ->paginate(15);
 
         return view('dispatcher.job_orders.index', compact('jobOrders'));
@@ -97,5 +94,20 @@ class DispatcherController extends Controller
 
         return redirect()->route('dispatcher.job_orders.index')
         ->with('success','Field team dispatched! Job Order is now In Progress.');
+    }
+
+    public function updateUrgency(Request $request, JobOrder $jobOrder){
+        $request->validate([
+            'is_urgent' => 'required|boolean'
+        ]);
+
+        $jobOrder->update([
+            'is_urgent' => $request->is_urgent
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Urgency updated successfully.'
+        ]);
     }
 }
